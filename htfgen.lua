@@ -22,7 +22,8 @@ local template = [[
 ]]
 
 template = template:gsub("{font}",fontname)
-local tex = io.popen("latex -jobname="..fontname.." -interaction=batchmode", "w")
+--local tex = io.popen("latex -jobname="..fontname.." -interaction=batchmode", "w")
+local tex = io.popen("latex -jobname="..fontname, "w")
 tex:write(template)
 tex:close()
 if not file_exists(fontname..".dvi") then
@@ -34,5 +35,7 @@ os.execute("tex4ht "..fontname)
 local html_file = io.open(fontname ..".html","r")
 local html = html_file:read("*all")
 html_file:close()
-print(html)
+local table = html:match('alt="(.*)"  class="ShowFont"')
+
+print(table)
 

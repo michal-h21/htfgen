@@ -16,7 +16,6 @@ loadenc.parse = function(s)
   local t = {}
   local i = 0
   s:gsub("/([%a%.]+)", function(a)
-    print(i,a)
     t[i] = a
     i = i + 1
   end)

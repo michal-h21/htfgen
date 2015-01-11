@@ -16,8 +16,8 @@ end
 
 
 
-local name = arg[1] or "ptmr8r"
-local enc = arg[2] or "8r"
+local name = arg[1] or "ntxsyralt"
+local enc = arg[2] or "ntxmiaalt"
 local s = parsepl.parse(pl_loader.load(name))
 local symbols = loadenc.parse(loadenc.load(enc))
 local glyphs = parse_glyphlist()
@@ -25,7 +25,7 @@ local glyphs = parse_glyphlist()
 for k,v in ipairs(s) do
   if v.type=="character" then
     local symbol = symbols[v.value]
-    print("+",v.value, symbol, glyphs[symbol])
+    print("+",v.value,string.char(v.value), symbol, glyphs[symbol])
   end
 end
 

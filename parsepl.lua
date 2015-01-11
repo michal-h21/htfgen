@@ -11,7 +11,7 @@ end
 
 -- pl: string with contents of pl file
 parsepl.parse = function(pl,actions)
-  local actions = actions or {}
+  local actions = actions or parsepl.actions
   local t = {}
   pl:gsub("(%b())",function(list)
     local action,list = parsepl.prepare_entry(list)
@@ -25,17 +25,41 @@ parsepl.parse = function(pl,actions)
 end
 
 local xx = function(s) 
-  return s 
+  return {type="ss",value=s} 
+end
+
+-- characters are encoded either as characters (prefixed with "C"), or
+-- as octal number (prefixed with "0")
+local get_value = function(iden_type,identifier)
+  if iden_type=="C" then
+    return string.byte(identifier)
+  else
+    return tonumber(identifier,8)
+  end
 end
 
 parsepl.actions = {
 CODINGSCHEME= function(s) return {type="encoding", value=s} end,
 MAPFONT=function(s) 
-
+  local identifier = s:match("(. [0-9]+)")
+  local name = s:match("FONTNAME ([^%)]+)")
+  return {type="mapfont",identifier=identifier,name=name}
 end,
-CHARACTER=xx 
+CHARACTER=function(s)
+  -- get char value
+  local iden_type,identifier = s:match("([CO]) ([^%s]+)")
+  local value = get_value(iden_type,identifier)
+  local new_iden_type, new_identifier = s:match("SETCHAR (.) ([^%)]+)")
+  if new_iden_type then 
+    local setchar = get_value(new_iden_type,new_identifier)
+  end
+  local mapfont = s:match("SELECTFONT (. [^%)]+)")
+  return {type="character",value = value, setchar=setchar,selectfont=mapfont}
+  
+end
 }
 
+--[[
 local f = io.open("ntxmia.pl","r")
 
 local s = f:read("*all")
@@ -43,8 +67,13 @@ f:close()
 
 local t = parsepl.parse(s, parsepl.actions)
 for k,v in ipairs(t) do
-  print(k,v)
+  print(k)
+  for x,y in pairs(v) do
+    print("",x,y)
+  end
 end
+
+--]]
 
 return parsepl
 

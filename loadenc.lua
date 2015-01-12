@@ -3,7 +3,8 @@ local loadenc = {}
 
 loadenc.load = function(enc)
   local filename = kpse.find_file(enc,"enc files")
-  print(filename)
+  print(enc,filename)
+	if not filename then return nil, "cannot load end ".. enc end
   local f = io.open(filename,"r")
   local contents = f:read("*all")
   f:close()
@@ -23,7 +24,7 @@ loadenc.parse = function(s)
 end
 
 
-k = loadenc.load("ntxmiaalt")
-loadenc.parse(k)
+-- k = loadenc.load("ntxmiaalt")
+-- loadenc.parse(k)
 
 return loadenc

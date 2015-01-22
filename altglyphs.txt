@@ -1,0 +1,431 @@
+eng ng
+Eng Ng
+Udblacute Uhungarumlaut
+udblacute uhungarumlaut udblacutesc uhungarumlautsc
+Odblacute Ohungarumlaut
+odblacute ohungarumlaut odblacutesc ohungarumlautsc
+Zdot Zdotaccent
+zdot zdotaccent zdotsc zdotaccentsc
+hyphennobreak hyphenchar		# See sfthyphen below
+zeronobreakspace compwordmark
+Idot Idotaccent
+spaceliteral visiblespace
+#
+#	TeX/DC fonts to Unicode hapax legomena (TeX/DC characters which Unicode
+#	doesn't cover)
+#
+# Many ligatures are not in Unicode, although Microsoft puts the
+# fi at 0xf001 and 0xfb01, fl at 0xf002 and 0xfb02 (0xf001/0xf002 more common)
+ff ffsc 0xfb00
+fi fisc 0xfb01
+fl flsc 0xfb02
+ffi ffisc 0xfb03
+ffl fflsc 0xfb04
+#
+#	Here are some synonyms and other conflicts discovered in examining
+#	various commercial fonts and other sources of real-world encoding.
+#
+# Greek letter mu or mu1 versus micro symbol has to do with a Microsoft-Apple
+# conflict; is discussed on the MSDN
+micro 0x00b5
+mu mu1 0x03bc
+#
+sigmafinal sigma1
+# [Dd]macron versus [Dd]slash (the Unicode description calls it a "stroke")
+Dmacron Dslash Dbar Dmacronsc Dslashsc Dbarsc 0x0110
+dmacron dslash dbar dmacronsc dslashsc dbarsc 0x0111
+overscore macron
+# Some rationalize the hooked/script letters, some think it a currency symbol
+fscript florin 0x0192 
+# Just an honest confusion of opinion here; Unicode does distinguish between
+# a math slash for division and a fraction slash
+slashmath fraction fraction1 negationslash 0x2215
+#
+# Sometimes we have a font with "space" at 0xa0
+space nbspace 0x40 0xa0
+# A hyphen is supposed to be soft, since hyphennobreak is a separate char?
+sfthyphen hyphen
+# Plain old confusion
+registered circleR
+copyright circlecopyrt
+# Confused name, glyph is in Lucida Sans Unicode but is not PostScript named
+smile smileface 0x263a
+# Somebody confused "Fraktur" with "fraction" and misspelled it "fractur".
+# This happens both ways (!) in Computer Modern and Lucida Sans Unicode (!).
+Ifraktur Ifractur
+Rfraktur Rfractur
+# Some more confusion regarding math/engineering symbols
+tie1 tie
+alef aleph alephmath
+dalet daleth dalethmath
+arrowlongboth arrowboth
+arrowlongbothv arrowbothv
+arrowdbllongboth arrowdblboth
+arrowdbllongbothv arrowdblbothv
+periodcentered dotmath
+prime1 primemod prime
+primerev1 primereverse
+mho Omegainv
+precedesequal1 precedesequal
+followsequal1 followsequal
+asymptequal similarequal
+box square
+filledbox squaresolid
+smallboxfilled squaresmallsolid
+diamondrhombsolid diamondsolid
+arrowclockw clockwise
+arrowanticlockw anticlockwise
+force forces
+tacktrpl forcesbar
+satisfy satisfies
+dblarrowdown dblarrowdwn
+arrowupleft shiftleft
+arrowupright shiftright
+arrowsquiggleright squiggleright
+arrowwaveboth squiggleleftright
+arrowloopleft curlyleft
+arrowloopright curlyright
+followsequivlnt followsorequal
+greaterequivlnt greaterorsimilar
+geomequal equalsdots
+deltaequal defines
+precedequivlnt precedesorequal
+lessequivlnt lessorsimilar
+equalless equalorless
+equalgreater equalorgreater
+equalprecedes1 equalorprecedes
+equalfollows1 equalorfollows
+precedesequal1 precedesorcurly
+lessequal lessorequalslant
+imageorapproxequal equaldotrightleft
+approxequalorimage equaldotleftright
+followsequal1 followsorcurly
+greaterequal greaterorequalslant
+triangrightequal trianglerightequal
+triangleftequal triangleleftequal
+triagdn triangledownsld
+arrowright arrowaxisright
+arrowleft arrowaxisleft
+triagup trianglesolid
+greaterequalless greaterlessequal
+xor orunderscore
+slurabove frown
+curland uprise
+curlor downfall
+reflexsubset subsetdblequal
+reflexsuperset supersetdblequal
+verymuchless muchless
+verymuchgreater muchgreater
+Fturn Finv
+bethmath beth
+arrowlongbothnot notarrowboth
+arrowsemanticlockw archleftdown
+arrowsemclockw archrightdown
+arrowdblleftnot notdblarrowleft
+arrowdbllongbothnot notdblarrowboth
+arrowdblrightnot notdblarrowright
+elementsmall epsiloninv
+notbardbl notparallel
+verticalbardbl bardbl
+minustilde equalorsimilar
+notlessequal1 notlessorslnteql
+notgreaterequal1 notgreaterorslnteql
+notpreceeds notprecedes				# Lucida error
+notreflexsubset notsubseteql
+notreflexsuperset notsuperseteql
+subsetnotequal subsetnoteql
+supersetnotequal supersetnoteql
+notturnstileleft notturnstile
+notsatisfy notsatisfies
+notforce notforces
+notforceextr notforcesextra
+divideonmultiply dividemultiply
+preceedsnotequal notprecedesoreql
+followsnotequal notfollowsoreql
+lessnotequivlnt lessornotsimilar
+greaternotequivlnt greaterornotsimilar
+preceedsnotsimilar precedeornoteqvlnt
+followsnotequivlnt followornoteqvlnt
+nottriangleleftequal nottriangeqlleft
+nottrianglerightequal nottriangeqlright
+#
+#	These map the small-caps version of characters to their
+#	non-small-caps equivalents 
+#
+ae aesc
+a asc
+b bsc
+c csc
+dotlessi dotlessisc		# dotlessj handled above
+d dsc
+e esc
+f fsc
+germandbls germandblssc
+g gsc
+h hsc
+i isc
+j jsc
+k ksc
+l lsc
+m msc
+n nsc
+oe oesc
+o osc
+oslash oslashsc
+p psc
+q qsc
+r rsc
+s ssc
+t tsc
+u usc
+v vsc
+w wsc
+x xsc
+y ysc
+z zsc
+aacute aacutesc
+abreve abrevesc
+acircumflex acircumflexsc
+adieresis adieresissc
+agrave agravesc
+aogonek aogoneksc
+aring aringsc
+atilde atildesc
+cacute cacutesc
+ccaron ccaronsc
+ccedilla ccedillasc
+dcaron dcaronsc
+eacute eacutesc
+ecaron ecaronsc
+ecircumflex ecircumflexsc
+edieresis edieresissc
+egrave egravesc
+eogonek eogoneksc
+eth ethsc
+gbreve gbrevesc
+iacute iacutesc
+icircumflex icircumflexsc
+idieresis idieresissc
+igrave igravesc
+ij ijsc
+lacute lacutesc
+lcaron lcaronsc
+lslash lslashsc
+nacute nacutesc
+ncaron ncaronsc
+eng ng ngsc
+ntilde ntildesc
+oacute oacutesc
+ocircumflex ocircumflexsc
+odieresis odieresissc
+ograve ogravesc
+otilde otildesc
+racute racutesc
+rcaron rcaronsc
+sacute sacutesc
+scaron scaronsc
+scedilla scedillasc
+tcaron tcaronsc
+tcedilla tcedillasc
+thorn thornsc
+uacute uacutesc
+ucircumflex ucircumflexsc
+udieresis udieresissc
+ugrave ugravesc
+uring uringsc
+yacute yacutesc
+ydieresis ydieresissc
+zacute zacutesc
+zcaron zcaronsc
+#
+#	These are alternate typographical forms used in the TeX Euler faces,
+#	hereby assigned to the Unicode private zone.
+#
+Yalt 0xf021
+Zalt 0xf022
+dalt 0xf023
+falt 0xf024
+galt 0xf025
+kalt 0xf026
+onealt 0xf027
+talt 0xf028
+ualt 0xf029
+dnos 0xf02a
+fnos 0xf02b
+#
+#	Old style digits overloaded onto regular digits
+#
+zero zerooldstyle
+one oneoldstyle
+two twooldstyle
+three threeoldstyle
+four fouroldstyle
+five fiveoldstyle
+six sixoldstyle
+seven sevenoldstyle
+eight eightoldstyle
+nine nineoldstyle
+#
+#	Somehow these are missing from the Lucida Sans Unicode post table
+#	or from that font altogether.
+#
+spade 0x2660
+club 0x2663
+heart 0x2665
+diamond 0x2666
+invsmileface 0x263b		# Not a frown, but reverse background
+angbracketleft 0x3008
+angbracketright 0x3009
+maltesecross 0x2720
+check 0x2713
+circleS 0x24c8
+#
+#	Box-drawing corners look like these angles in msam.cod
+#	(Names in Lucida Sans Unicode are just the hex codes)
+#
+rightanglenw 0x250c
+rightanglene 0x2510
+rightanglesw 0x2514
+rightanglese 0x2518
+#
+#	TeXeru peculiar symbols (temporary 0x0 fall-back codes)
+#
+# Unicode has a few dotless j's with something else, but no dotless j alone!
+dotlessj dotlessjsc 0xf021
+# Unicode is stubborn in avoiding SS, despite the loss of lower-upper pairing
+SS 0xf022
+# Unicode has perthousand but not this separate small zero.  So far I have
+# only seen it in the TeX DC fonts.
+perthousandzero 0xf023
+# Unicode has a crossed Polish l, but not the separate component like CM's
+polishlcross suppress 0xf024
+#
+# From CMTI10:
+# 
+# 	0x7e vector
+vector 0xf025
+# 
+# From CMSY10:
+# 
+# 	0x37 mapsto
+mapsto 0xf026
+# 	0x6b bardbl
+bardbl 0xf027
+# 
+# From MSAM10:
+# 
+# 	0x27 greaterorapproxeql
+greaterorapproxeql 0xf030
+# 	0x2f lessorapproxeql
+lessorapproxeql 0xf031
+# 	0x39 axisshort
+axisshort 0xf032
+# 	0x53 lessdbleqlgreater
+lessdbleqlgreater 0xf033
+# 	0x54 greaterdbleqlless
+greaterdbleqlless 0xf034
+# 	0x5b perpcorrespond
+perpcorrespond 0xf035
+# 
+# From MSBM10:
+# 
+# 	0x02 notlessequal
+notlessequal 0xf036
+# 	0x03 notgreaterequal
+notgreaterequal 0xf037
+#	0x08 lessornotdbleql
+lessornotdbleql 0xf038
+# 	0x0c lessnotequal
+lessnotequal 0xf039
+# 	0x0d greaternotequal
+greaternotequal 0xf03a
+# 	0x14 notlessdblequal
+notlessdblequal 0xf03b
+# 	0x15 notgreaterdblequal
+notgreaterdblequal 0xf03c
+# 	0x16 precedenotslnteql
+precedenotslnteql 0xf03d
+# 	0x17 follownotslnteql
+follownotslnteql 0xf03e
+# 	0x18 precedenotdbleqv
+precedenotdbleqv 0xf03f
+# 	0x19 follownotdbleqv
+follownotdbleqv 0xf040
+# 	0x1e upslope
+upslope 0xf041
+# 	0x1f downslope
+downslope 0xf042
+# 	0x20 notsubsetoreql
+notsubsetoreql 0xf043
+# 	0x21 notsupersetoreql
+notsupersetoreql 0xf044
+# 	0x22 notsubsetordbleql
+notsubsetordbleql 0xf045
+# 	0x23 notsupersetordbleql
+notsupersetordbleql 0xf046
+# 	0x24 subsetornotdbleql
+subsetornotdbleql 0xf047
+# 	0x25 supersetornotdbleql
+supersetornotdbleql 0xf048
+# 	0x26 subsetornoteql
+subsetornoteql 0xf049
+# 	0x27 supersetornoteql
+supersetornoteql 0xf04a
+# 	0x2e notshortbar
+notshortbar 0xf04b
+# 	0x2f notshortparallel
+notshortparallel 0xf04c
+# 	0x38 notarrowleft
+notarrowleft 0xf04d
+# 	0x39 notarrowright
+notarrowright 0xf04e
+# 	0x61 Gmir
+Gmir 0xf04f
+# 	0x70 barshort
+barshort 0xf050
+# 	0x71 parallelshort
+parallelshort 0xf051
+# 	0x72 integerdivide
+integerdivide 0xf052
+# 	0x7e planckover2pi1
+planckover2pi1 0xf053
+#
+#	The following are miscellaneous ambiguities introduced into
+#	TrueTeX fonts by various sources
+#
+yen Yen				# Simply misspelled
+Delta increment			# Confused Greek letter for Mac std glyph
+Omega Ohm			# Confused Greek letter for Mac std glyph
+#
+#	Names confused by the LaTeX project as used in the
+#	text companion (TC) fonts (TS1 encoding, see ltoutenc.dtx)
+#
+# The "ascii" presentation variance is a confusing distinction.  Some
+# names reflect ignorance of the principle
+asciidieresis highdieresis
+# Tick marks might be considered like the hours-minutes-seconds designators
+asciigrave backtick
+asciiacute tick
+gravedbl doubletick
+acutedbl doublebacktick
+doublehyphen shortequals
+verticalbardbl bardbl
+perthousand permill
+degreecentigrade Celsius
+coloncurrency colonmonetary
+Rx recipe
+gnaborretni interrobangdown
+pertenthousand pertenmill
+# Alternate form of paragraph (bulb is filled?)
+paragraphalt pilcrow
+# A German commercial symbol for discount.  Seems known only to LaTeX.
+abzueglich discount commercialminus
+# Variant of curly braces from Omega project
+lquill bracketleftquill
+rquill bracketrightquill
+logicalnot lnot
+# Phono copyright symbol
+recordright circleP
+refmark referencemark
+radical surd
+

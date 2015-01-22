@@ -11,13 +11,32 @@ local load_glyphlist = function(file, t)
 	return t
 end
 
+local load_alt_glyphs = function(t)
+	for line in io.lines("altglyphs.txt") do
+		if not line:match("^%s*#") then
+			line = line:gsub("#.*","")
+			print(line)
+		end
+	end
+	return t
+end
+
 local parse_glyphlist = function()
   local t = {}
 	local glyphlist = kpse.find_file("glyphlist.txt","map")
 	local texglyphs = kpse.find_file("texglyphlist.txt","map")
 	t = load_glyphlist(glyphlist, t)
 	t = load_glyphlist(texglyphs, t)
-  return t
+	t = load_alt_glyphs(t)
+	--[[
+  return setmetatable(t,{__index = function(x) 
+		local x = x or "" 
+		local c =  x:match("u([A-Fa-f0-9]+)") or ""
+		print("lookup ",c)
+		return ""
+	end})
+	--]]
+	return t
 end
 
 

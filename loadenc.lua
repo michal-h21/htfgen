@@ -2,6 +2,7 @@ kpse.set_program_name("luatex")
 local loadenc = {}
 local map 
 loadenc.load = function(enc)
+	print("enc",enc)
   local filename = kpse.find_file(enc,"enc files") or enc
   print(enc,filename)
 	if not filename then return nil, "cannot load end ".. enc end
@@ -24,12 +25,34 @@ loadenc.parse = function(s)
   return t
 end
 
+
+local mapfolder = kpse.expand_var("$TEXMFDIST") .. "/fonts/map/pdftex"
+local load_maps = function(t)
+	local t = t or {}
+	for dir in lfs.dir(mapfolder) do
+		local s = dir:match("(.)")
+		if s~= "." then
+			local path = mapfolder .."/"..dir
+			for file in lfs.dir(path) do
+				if file:match "map$" then
+					local filename = path .."/"..file
+					for line in io.lines(filename) do
+						t[#t+1] = line
+					end
+				end
+			end
+		end
+	end
+	return t
+end
+
 local load_map = function()
 	local mapfile = kpse.find_file("pdftex","map")
 	print("mapfile",mapfile)
 	if not mapfile then return nil, "cannot find pdftex.map" end
 	--local mapfile = io.open(mapfile,"r")
 	local t = {}
+	t = load_maps(t)
 	for line in io.lines(mapfile) do
 		t[#t+1] = line
 	end

@@ -1,3 +1,4 @@
+# found at http://permalink.gmane.org/gmane.comp.tex.fonts/154
 eng ng
 Eng Ng
 Udblacute Uhungarumlaut

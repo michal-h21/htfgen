@@ -5,7 +5,7 @@ local loadenc = require "loadenc"
 local glyphs = require "glyphload"
 
 
-local name = arg[1] or "ntxsyralt"
+local name = arg[1] or "bchr8t"
 local enc = arg[2] or loadenc.find(name)
 local s = parsepl.parse(pl_loader.load(name))
 local symbols = loadenc.parse(loadenc.load(enc))

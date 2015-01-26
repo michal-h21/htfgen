@@ -15,7 +15,16 @@ local load_alt_glyphs = function(t)
 	for line in io.lines("altglyphs.txt") do
 		if not line:match("^%s*#") then
 			line = line:gsub("#.*","")
-			print(line)
+			local hex = line:match("0x([a-f0-9]+)")
+			if hex then 
+				hex = hex:upper()
+				local c = string.explode(line," ")
+				c[#c] = nil
+				for _,item in ipairs(c)  do
+					print(item, hex)
+					t[item] = hex
+				end
+			end
 		end
 	end
 	return t

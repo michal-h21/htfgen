@@ -7,6 +7,10 @@ local glyphs = require "glyphload"
 
 local name = arg[1] or "bchr8t"
 local enc = arg[2] or loadenc.find(name)
+if not enc then 
+	print("Cannot load enc file for "..name)
+	os.exit()
+end
 local s = parsepl.parse(pl_loader.load(name))
 local symbols = loadenc.parse(loadenc.load(enc))
 

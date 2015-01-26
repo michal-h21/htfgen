@@ -36,15 +36,15 @@ local parse_glyphlist = function()
 	t = load_glyphlist(glyphlist, t)
 	t = load_glyphlist(texglyphs, t)
 	t = load_alt_glyphs(t)
-	--[[
-  return setmetatable(t,{__index = function(x) 
-		local x = x or "" 
-		local c =  x:match("u([A-Fa-f0-9]+)") or ""
-		print("lookup ",c)
-		return ""
-	end})
-	--]]
+  t =  setmetatable({},{__index = t})
+	t.getGlyph = function(self,x)
+		local y = self[x]  
+		if y then return y end
+		local c =  x:match("u[n]?[i]?([A-Fa-f0-9]+)")
+		return c
+	end
 	return t
+	--]]
 end
 
 

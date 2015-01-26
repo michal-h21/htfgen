@@ -21,7 +21,6 @@ end
 for k,v in ipairs(s) do
   if v.type=="character" then
     local symbol = symbols[v.value]
-    print(v.value, symbol, glyphs[symbol])
+    print(v.value, symbol, glyphs:getGlyph(symbol))
   end
 end
-

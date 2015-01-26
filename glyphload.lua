@@ -21,7 +21,6 @@ local load_alt_glyphs = function(t)
 				local c = string.explode(line," ")
 				c[#c] = nil
 				for _,item in ipairs(c)  do
-					print(item, hex)
 					t[item] = hex
 				end
 			end

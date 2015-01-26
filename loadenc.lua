@@ -2,9 +2,9 @@ kpse.set_program_name("luatex")
 local loadenc = {}
 local map 
 loadenc.load = function(enc)
-	print("enc",enc)
+	--print("enc",enc)
   local filename = kpse.find_file(enc,"enc files") or enc
-  print(enc,filename)
+  --print(enc,filename)
 	if not filename then return nil, "cannot load end ".. enc end
   local f = io.open(filename,"r")
   local contents = f:read("*all")
@@ -48,7 +48,7 @@ end
 
 local load_map = function()
 	local mapfile = kpse.find_file("pdftex","map")
-	print("mapfile",mapfile)
+	--print("mapfile",mapfile)
 	if not mapfile then return nil, "cannot find pdftex.map" end
 	--local mapfile = io.open(mapfile,"r")
 	local t = {}

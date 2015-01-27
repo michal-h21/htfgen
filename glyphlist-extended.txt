@@ -4421,3 +4421,11 @@ punctdash;2014
 # visiblespace = visualspace
 visiblespace;2423
 # -- end TeX extensions
+# additions by Michal Hoftich
+tie;2040
+harpoonleftup;21BC
+harpoonleftdown;21BD 
+harpoonrightup;21C0
+harpoonrightdown;21C1 
+hookrightchar;21AA
+hookleftchar;21A9 

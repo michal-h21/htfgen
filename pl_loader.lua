@@ -13,9 +13,9 @@ pl_loader.load = function(name)
   local name = name or ""
   local filename = kpse.find_file(name,"vf")
   if not filename then
-		return pl_loader.load_tfm(name)
+		return pl_loader.load_tfm(name), "tfm"
   end
-  return load_plist("vftovp", filename)
+  return load_plist("vftovp", filename), "vf"
 end
 
 pl_loader.load_tfm = function(name)

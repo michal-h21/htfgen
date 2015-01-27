@@ -11,7 +11,9 @@ if not enc then
 	print("Cannot load enc file for "..name)
 	os.exit()
 end
-local s = parsepl.parse(pl_loader.load(name))
+
+local list,fonttype = pl_loader.load(name)
+local s = parsepl.parse(list)
 local symbols = loadenc.parse(loadenc.load(enc))
 
 

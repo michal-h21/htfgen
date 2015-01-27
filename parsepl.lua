@@ -47,16 +47,17 @@ MAPFONT=function(s)
 end,
 CHARACTER=function(s)
   -- get char value
+  local setchar
   local iden_type,identifier = s:match("([CO]) ([^%s]+)")
   local value = get_value(iden_type,identifier)
   local new_iden_type, new_identifier = s:match("SETCHAR (.) ([^%)]+)")
   if new_iden_type then 
-    local setchar = get_value(new_iden_type,new_identifier)
+    setchar = get_value(new_iden_type,new_identifier)
   end
 	local setcharcnt = 0
 	for x in s:gmatch("SETCHAR") do setcharcnt = setcharcnt + 1 end
   local mapfont = s:match("SELECTFONT (. [^%)]+)")
-  return {type="character",value = value, setchar=setchar,selectfont=mapfont, setcharcnt =setcharcnt}
+  return {type="character",iden_type=iden_type,value = value, setchar=setchar,selectfont=mapfont, setcharcnt =setcharcnt}
 end
 }
 

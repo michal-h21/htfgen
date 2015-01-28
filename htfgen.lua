@@ -23,7 +23,10 @@ end
 
 print(name.." "..min.." "..max)
 for _,c in ipairs(htf) do
-	print("'&#x"..c[1]..";'", "''", c[2])
+  local hexs = string.explode(c[1]," ")
+  hexs = string.format("'&#x%s;", table.concat(hexs,";&#x"))
+	--print("'&#x"..c[1]..";'", "''", c[2])
+	print(hexs, "''", c[2])
 
 end
 print(name.." "..min.." "..max)

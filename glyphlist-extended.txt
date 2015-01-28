@@ -4306,7 +4306,7 @@ FFLsmall;D808
 FIsmall;D805
 FLsmall;D806
 # Germandbls: invalid Unicode, used for secondary replacement from EC.enc
-Germandbls;D800
+Germandbls;1E9E
 # Germandblssmall: invalid Unicode
 Germandblssmall;D803
 Ng;014A
@@ -4544,3 +4544,4 @@ c;0063
 d;0064
 e;0065
 f;0066
+Germandbls;0053 0053

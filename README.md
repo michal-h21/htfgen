@@ -14,7 +14,7 @@ This is a set of tools to simplify creation of `htf` fonts for `tex4ht`.
     chmod +x lsenc
     chmod +x tfmtochars
     chmod +x htfgen
-    ls -s /full/path/to/thisdir/lsenc /usr/local/bin/lsecn
+    ls -s /full/path/to/thisdir/lsenc /usr/local/bin/lsenc
     ls -s /full/path/to/thisdir/tfmtochars /usr/local/bin/tfmtochars
     ls -s /full/path/to/thisdir/htfgen /usr/local/bin/htfgen
 

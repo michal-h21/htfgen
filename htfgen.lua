@@ -18,15 +18,21 @@ for line in io.lines(input) do
 		min = i
 	end
 	max = math.max(max,i)
-	htf[#htf+1] = {t[3],t[2]}
+	--htf[#htf+1] = {t[3],t[2]}
+	htf[i] = {t[3],t[2]}
 end
 
 print(name.." "..min.." "..max)
-for _,c in ipairs(htf) do
-  local hexs = string.explode(c[1]," ")
-  hexs = string.format("'&#x%s;", table.concat(hexs,";&#x"))
-	--print("'&#x"..c[1]..";'", "''", c[2])
-	print(hexs, "''", c[2])
+for i = min,max do
+  local c = htf[i] 
+  if c then
+    local hexs = string.explode(c[1]," ")
+    hexs = string.format("'&#x%s;", table.concat(hexs,";&#x"))
+    --print("'&#x"..c[1]..";'", "''", c[2])
+    print(hexs, "''", c[2])
+  else
+    print("''","''","none")
+  end
 
 end
 print(name.." "..min.." "..max)

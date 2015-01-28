@@ -1,0 +1,2 @@
+#!/bin/sh 
+exec texlua `kpsewhich tfmtochars.lua` $@

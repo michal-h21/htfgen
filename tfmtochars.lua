@@ -27,10 +27,10 @@ end
 for k,v in ipairs(s) do
   if v.type=="character" then
     local symbol = symbols[v.value]
-    if v.iden_type == "C" then
+    --[[if v.iden_type == "C" then
       print(v.value, symbol, symbol)
-    else
+    else -- ]]
       print(v.value, symbol, glyphs:getGlyph(symbol))
-    end
+    -- end
   end
 end

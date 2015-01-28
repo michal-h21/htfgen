@@ -4537,4 +4537,10 @@ radicalBig;221A
 radicalbigg;221A
 radicalBigg;221A
 radicalbt;221A
-
+# fixes 
+a;0061
+b;0062
+c;0063
+d;0064
+e;0065
+f;0066

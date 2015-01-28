@@ -1,4 +1,5 @@
 
+local basedir = arg[0]:match("(.+)/[^%/]+") .."/"
 local load_glyphlist = function(file, t)
 	local t = t or {}
 	if not file then return t, "No glyph list file" end
@@ -12,7 +13,7 @@ local load_glyphlist = function(file, t)
 end
 
 local load_alt_glyphs = function(t)
-	for line in io.lines("altglyphs.txt") do
+	for line in io.lines(basedir .. "altglyphs.txt") do
 		if not line:match("^%s*#") then
 			line = line:gsub("#.*","")
 			local hex = line:match("0x([a-f0-9]+)")
@@ -35,8 +36,8 @@ local parse_glyphlist = function()
 	local texglyphs = kpse.find_file("texglyphlist.txt","map")
 	t = load_glyphlist(glyphlist, t)
 	t = load_glyphlist(texglyphs, t)
-	t = load_glyphlist("altglyphs.txt", t)
-	t = load_glyphlist("glyphlist-extended.txt", t)
+	t = load_glyphlist(basedir .. "additional-glyphlist.txt", t)
+	t = load_glyphlist(basedir .. "glyphlist-extended.txt", t)
 	t = load_alt_glyphs(t)
   t =  setmetatable({},{__index = t})
 	t.getGlyph = function(self,x)

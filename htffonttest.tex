@@ -1,0 +1,34 @@
+\documentclass{article}
+%\usepackage{cmap}
+%\usepackage[T1]{fontenc}
+%\usepackage[utf8]{luainputenc}
+%\usepackage{unicode-math}
+
+% \usepackage{luacode}
+% \begin{luacode}
+% local char = unicode.utf8.char
+% function print_text(head)
+%   local t = {}
+%   for k in node.traverse_id(37,head) do
+% 	  t[#t+1] = char(k.char)..":"..k.char..";"
+% 	end
+% 	print(table.concat(t))
+% 	return head
+% end
+% luatexbase.add_to_callback("pre_linebreak_filter",print_text,"unicode text")
+% \end{luacode}
+\pagestyle{empty}
+\begin{document}
+\font\x= zxxrl7z% txex%bchr8t%ntxmia
+%\font\x= bchr8t%ntxmia
+
+[ahi] a \_ sss \char94 a \char93 nebo \char95 jo \char96
+
+
+\count0=0
+\loop
+\ifnum\count0<256
+\the\count0\ \bgroup\x\char\count0\egroup\par
+\advance\count0 by1\relax
+\repeat
+\end{document}

@@ -4,7 +4,7 @@ local load_glyphlist = function(file, t)
 	local t = t or {}
 	if not file then return t, "No glyph list file" end
   for line in io.lines(file) do
-    local glyph, hex = line:match("([%a]+);([%a0-9 ]+)")
+    local glyph, hex = line:match("([%a%.0-9]+);([%a0-9 ]+)")
     if glyph then
       hex = hex:gsub("%s*$","")
       t[glyph] = hex
@@ -38,6 +38,7 @@ local parse_glyphlist = function()
 	t = load_glyphlist(glyphlist, t)
 	t = load_glyphlist(texglyphs, t)
 	t = load_glyphlist(basedir .. "additional-glyphlist.txt", t)
+	t = load_glyphlist(basedir .. "goadb100.txt", t)
 	t = load_alt_glyphs(t)
 	t = load_glyphlist(basedir .. "glyphlist-extended.txt", t)
   t =  setmetatable({},{__index = t})

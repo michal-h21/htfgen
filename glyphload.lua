@@ -43,6 +43,7 @@ local parse_glyphlist = function()
 	t = load_glyphlist(basedir .. "glyphlist-extended.txt", t)
   t =  setmetatable({},{__index = t})
 	t.getGlyph = function(self,x)
+		local x = x or ""
 		local y = self[x]  
 		if y then return y end
 		local c =  x:match("u[n]?[i]?([A-Fa-f0-9]+)")

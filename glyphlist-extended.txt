@@ -4545,4 +4545,4 @@ d;0064
 e;0065
 f;0066
 Germandbls;0053 0053
-hyphen.alt;uniEB2F
+hyphen.alt;EB2F

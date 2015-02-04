@@ -11,10 +11,10 @@ This is a set of tools to simplify creation of `htf` fonts for `tex4ht`.
     git clone https://github.com/michal-h21/htfgen.git
     cd htfgen
     tex makeenc.tex
-    chmod +x lsenc
+    chmod +x lstexenc
     chmod +x tfmtochars
     chmod +x htfgen
-    ls -s /full/path/to/thisdir/lsenc /usr/local/bin/lsenc
+    ls -s /full/path/to/thisdir/lstexenc /usr/local/bin/lstexenc
     ls -s /full/path/to/thisdir/tfmtochars /usr/local/bin/tfmtochars
     ls -s /full/path/to/thisdir/htfgen /usr/local/bin/htfgen
 
@@ -22,16 +22,16 @@ This is a set of tools to simplify creation of `htf` fonts for `tex4ht`.
 
 First, we need to figure out, whether tested font is virtual. Virtual fonts aren't supported at the moment. 
 
-    lsenc fontname
+    lstexenc fontname
 
 for `tfm` font, we get something like:
 
-    $ lsenc eccc1000
+    $ lstexenc eccc1000
     eccc1000        tfm     EXTENDED TEX FONT ENCODING - LATIN
 
 for virtual font, the outpus is like this:
 
-    $ lsenc ntxmia 
+    $ lstexenc ntxmia 
     ntxmia	vf	FONTSPECIFIC
       txmia	tfm	FONTSPECIFIC
       txsyc	tfm	FONTSPECIFIC
@@ -77,7 +77,7 @@ for some fonts, `enc` file can't be found:
 You may try to find a enc file by hand (Google?). Common `enc` names can be 
 found in [fontname guide](http://ftp.math.utah.edu/pub/tex/historic/fonts/fontname/fontname-2.2/fontname_5.html#SEC22). 
 
-From `lsenc zxxrl7z` we know that this font uses `ADOBESTANDARDENCODING`, which is coded as `8a`:
+From `lstexenc zxxrl7z` we know that this font uses `ADOBESTANDARDENCODING`, which is coded as `8a`:
 
     $ tfmtochars zxxrl7z 8a 
 

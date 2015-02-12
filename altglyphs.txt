@@ -297,7 +297,7 @@ dotlessj dotlessjsc 0xf021
 SS 0xf022
 # Unicode has perthousand but not this separate small zero.  So far I have
 # only seen it in the TeX DC fonts.
-perthousandzero 0xf023
+# perthousandzero 0xf023 -  this is incorrect
 # Unicode has a crossed Polish l, but not the separate component like CM's
 polishlcross suppress 0xf024
 #

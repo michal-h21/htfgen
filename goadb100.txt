@@ -1232,7 +1232,7 @@ oogonekacute;EB49
 P.kali;EB4A
 P.out;EB4B
 paragraph.alt;EB4C
-perthousandzero;EB4D
+perthousandzero;2080
 Q.kali;EB4E
 Q.out;EB4F
 quotedblbase.cm;EB50

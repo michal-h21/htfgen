@@ -14,7 +14,13 @@ end
 
 local list,fonttype = pl_loader.load(name)
 local s = parsepl.parse(list)
-local symbols = loadenc.parse(loadenc.load(enc))
+local encfile = loadenc.load(enc)
+if not encfile then
+	print("Cannot load enc file "..enc)
+	os.exit()
+end
+
+local symbols = loadenc.parse(encfile)
 
 
 local mychar = function(x)

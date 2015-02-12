@@ -7,6 +7,7 @@ loadenc.load = function(enc)
   --print(enc,filename)
 	if not filename then return nil, "cannot load end ".. enc end
   local f = io.open(filename,"r")
+	if not f then return nil, "cannot load enc "..enc end
   local contents = f:read("*all")
   f:close()
   local encoding = contents:match("/[^%s]+%s*%[(.-)%]%s*def")

@@ -27,7 +27,7 @@ for i = min,max do
   local c = htf[i] 
   if c then
     local hexs = string.explode(c[1]," ")
-    hexs = string.format("'&#x%s;", table.concat(hexs,";&#x"))
+    hexs = string.format("'&#x%s;'", table.concat(hexs,";&#x"))
     --print("'&#x"..c[1]..";'", "''", c[2])
     print(hexs, "''", c[2])
   else

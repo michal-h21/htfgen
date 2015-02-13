@@ -96,17 +96,12 @@ now we can generate the `htf` file with `htfgen`
 
     $ htfgen zxxrl7z.tsv > zxxrl7z.htf
 
-To test the `htf` file, you can use file `htffonttest.tex` distributed with 
-`htfgen`. Copy it to your working directory and add font name after 
-`\font\x=...`:
+To test the `htf` file, you can use `testfont.lua` script:
 
-    \font\x= zxxrl7z
+    $ texlua testfont.lua zxxrl7z
 
-compile this file with both `pdflatex` and `htlatex` (with unicode on, ie:
-
-    htlatex htffonttest "xhtml,charset=utf-8" " -cunihtf -utf8"
-
-and compare the resulting `pdf` and `html` files.
+and compare the resulting `pdf` and `html` files. Note that occasionally some
+characters in either `pdf` or `html` files are missing, I am not sure why.
 
 
 ## Issues

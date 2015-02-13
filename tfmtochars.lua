@@ -23,13 +23,6 @@ end
 local symbols = loadenc.parse(encfile)
 
 
-local mychar = function(x)
-	if x > 31 then
-		return string.char(x)
-	end
-	return ""
-end
-
 for k,v in ipairs(s) do
   if v.type=="character" then
     local symbol = symbols[v.value]

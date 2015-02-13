@@ -294,7 +294,7 @@ rightanglese 0x2518
 # Unicode has a few dotless j's with something else, but no dotless j alone!
 dotlessj dotlessjsc 0xf021
 # Unicode is stubborn in avoiding SS, despite the loss of lower-upper pairing
-SS 0xf022
+# SS 0xf022 - PUA, don't use
 # Unicode has perthousand but not this separate small zero.  So far I have
 # only seen it in the TeX DC fonts.
 # perthousandzero 0xf023 -  this is incorrect

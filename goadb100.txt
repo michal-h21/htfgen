@@ -1201,7 +1201,7 @@ guarani;EB2B
 H.kali;EB2C
 H.out;EB2D
 hungarumlaut.ts1;EB2E
-hyphen.alt;EB2F
+hyphen.alt;2010
 hyphen.prop;EB30
 hyphendbl;EB31
 hyphendbl.alt;EB32

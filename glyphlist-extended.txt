@@ -4313,7 +4313,7 @@ Ng;014A
 Omega;2126;03A9
 Rfractur;211C
 # SS: invalid Unicode, used for secondary replacement from EC.enc
-SS;D800
+SS;0053 0053 
 # SSsmall: invalid Unicode
 SSsmall;D803
 # altselector: invalid Unicode
@@ -4545,4 +4545,4 @@ d;0064
 e;0065
 f;0066
 Germandbls;0053 0053
-hyphen.alt;EB2F
+hyphen.alt;2010

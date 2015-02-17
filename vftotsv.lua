@@ -25,9 +25,9 @@ local fonts = {}
 local first_font 
 
 local function load_font(name)
-	local filename = name .. ".tsv"
+	local filename = lfs.currentdir()..  "/" .. name .. ".tsv"
 	local f = io.open(filename,"r")
-	if not f then
+	if f == nil then
 		return nil
 	end
 	f:close()
@@ -39,6 +39,7 @@ local function load_font(name)
 			t[i] = {r[2],r[3]}
 		end
 	end
+  return t
 end
 
 local function get_char(font_id, value)

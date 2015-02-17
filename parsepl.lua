@@ -38,6 +38,22 @@ local get_value = function(iden_type,identifier)
   end
 end
 
+local parse_map = function(map)
+	local map = map or ""
+	local t = {}
+	local charcnt = 0
+	for name, rest in map:gmatch("%(([^%s]+) ([^%)]+)%)") do
+		if name == "SELECTFONT" then
+			t[#t+1] = {type="selectfont", value = rest}
+		elseif name=="SETCHAR" then
+			charcnt = charcnt + 1
+			local typ, val = rest:match("(.) (.+)")
+			t[#t+1] = {type="setchar",value=get_value(typ,val)}
+		end
+	end
+	return t, charcnt
+end
+
 parsepl.actions = {
 CODINGSCHEME= function(s) return {type="encoding", value=s} end,
 MAPFONT=function(s) 
@@ -47,17 +63,18 @@ MAPFONT=function(s)
 end,
 CHARACTER=function(s)
   -- get char value
-  local setchar
   local iden_type,identifier = s:match("([CO]) ([^%s]+)")
   local value = get_value(iden_type,identifier)
-  local new_iden_type, new_identifier = s:match("SETCHAR (.) ([^%)]+)")
+  --[[local new_iden_type, new_identifier = s:match("SETCHAR (.) ([^%)]+)")
   if new_iden_type then 
     setchar = get_value(new_iden_type,new_identifier)
   end
 	local setcharcnt = 0
 	for x in s:gmatch("SETCHAR") do setcharcnt = setcharcnt + 1 end
-  local mapfont = s:match("SELECTFONT (. [^%)]+)")
-  return {type="character",iden_type=iden_type,value = value, setchar=setchar,selectfont=mapfont, setcharcnt =setcharcnt}
+	--]]
+	local map,setcharcnt = parse_map(s:match("%(MAP(.+)"))
+  -- local mapfont = s:match("SELECTFONT (. [^%)]+)")
+  return {type="character",iden_type=iden_type,value = value, setchar=setchar,selectfont=mapfont, setcharcnt =setcharcnt, map = map}
 end
 }
 

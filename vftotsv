@@ -1,3 +1,4 @@
+#!/usr/bin/env texlua
 kpse.set_program_name("luatex")
 local parsepl = require "parsepl"
 local pl_loader = require "pl_loader"
@@ -79,7 +80,7 @@ for k,v in pairs(t) do
 		local t = load_font(v.name) 
 		if not t then
 			print("Cannot load tsv file for font "..v.name)
-		--	os.exit(1)
+			os.exit(1)
 		end
 		local id = v.identifier
 	  first_font = first_font or id

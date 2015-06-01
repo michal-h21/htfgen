@@ -5,7 +5,7 @@ local family = arg[3] or "serif"
 
 
 local styles = {
-  rm = "font-style:normal",
+  rm = "font-style:normal;",
   b = "font-weight:bold;",
   it = "font-style:italic;",
   sc = "font-shape:small-caps;"
@@ -18,7 +18,7 @@ styles: rm, it, b, sc
 ]]
   os.exit()
 end
-local css = (styles[style] or "") .. " font-family: " .. family
+local css = (styles[style] or "") .. " font-family: " .. family ..";"
 local outfilename = font .. ".htf"
 
 local f = io.open(outfilename,"w")

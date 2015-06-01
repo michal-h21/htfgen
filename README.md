@@ -14,9 +14,77 @@ This is a set of tools to simplify creation of `htf` fonts for `tex4ht`.
     chmod +x lstexenc
     chmod +x tfmtochars
     chmod +x htfgen
+    chmod +x make-t1-htf 
     ln -s /full/path/to/thisdir/lstexenc /usr/local/bin/lstexenc
     ln -s /full/path/to/thisdir/tfmtochars /usr/local/bin/tfmtochars
     ln -s /full/path/to/thisdir/htfgen /usr/local/bin/htfgen
+    ln -s /full/path/to/thisdir/make-t1-htf /usr/local/bin/make-t1-htf
+
+## Simple usage
+
+If all what you need is to add support for normal text font encoded in T1
+fontenc, you may try to use the `make-t1-htf` script. 
+
+Lets say that you have following file:
+
+
+    \documentclass{article}
+    
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    
+    %\usepackage{dejavu}
+    \renewcommand{\familydefault}{\sfdefault}
+    \usepackage[defaultsans]{droidsans}
+    \newcommand\sample{Příliš žluťoučký kůň úpěl ďábelské ódy. \% ``Nazdar světě''}
+    
+    \begin{document}
+    
+    \sample
+    
+    \textit{\sample}
+    
+    \textbf{\sample}
+    
+    \textsc{\sample}
+    
+    \texttt{\sample}
+    
+    \end{document}
+
+Then you will get lot of warnings in the terminal output about missing `.htf`
+files:
+
+    --- warning --- Couldn't find font `DroidSans-t1.htf' (char codes: 0--255)
+
+because T1 encoded fonts should produce identical output, we don't need to
+create full `.htf` file with char table, but we can create file which points to
+some existing full `.htf` file in `T1` encoding. This file has such form:
+
+    .lm-ec
+
+dot on the first line indicated that this points to file `lm-ec.htf`, which is
+`.htf` file for Latin Modern in `T1` encoding. 
+
+We can add also some CSS information to the file, with this instruction:
+
+    .lm-ec
+    htfcss: DroidSans-Bold-t1 font-weight:bold; font-family: 'Droid Sans', sans-serif
+
+first entry after `htfcss` is the font name, which is also used as CSS `class`.
+Then CSS instructions follows. 
+
+To simplify creation of this light `.htf` file, `make-t1-htf` script is
+provided. The usage is following:
+
+    usage: maket1htf fontname [style] [family]
+
+available styles are rm for normal text, it -- italic, b -- bold and sc --
+small-caps
+
+The sample `.htf` file was created with command: 
+
+    $ make-t1-htf DroidSans-Bold-t1 b "'Droid Sans', sans-serif"
 
 ## Usage
 

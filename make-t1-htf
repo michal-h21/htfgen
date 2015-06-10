@@ -1,0 +1,27 @@
+#!/usr/bin/env texlua
+local font = arg[1]
+local style = arg[2] or "rm"
+local family = arg[3] or "serif"
+
+
+local styles = {
+  rm = "font-style:normal;",
+  b = "font-weight:bold;",
+  it = "font-style:italic;",
+  sc = "font-shape:small-caps;"
+}
+
+if font==nil or font == "--help" then
+  print [[Make a htf file for a T1 font
+usage: maket1htf.lua fontname [style] [family]
+styles: rm, it, b, sc
+]]
+  os.exit()
+end
+local css = (styles[style] or "") .. " font-family: " .. family ..";"
+local outfilename = font .. ".htf"
+
+local f = io.open(outfilename,"w")
+f:write(".lm-ec\n")
+f:write("htfcss: " .. font .." ".. css.."\n")
+f:close()

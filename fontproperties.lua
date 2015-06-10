@@ -1,6 +1,11 @@
 local M = {}
 
-function M.make_css(fontname, propertystring)
+function M.make_css(propertystring)
+  local fontname = propertystring:match("([^%-]+)")
+  local t = {}
+  fontname:gsub("([A-Z]*[a-z]+)", function(x) t[#t+1] = x end)
+  fontname = table.concat(t," ")
+  propertystring= propertystring:lower()
   local bold = propertystring:match("bold") and "font-weight: bold;"
   local slanted = propertystring:match("slanted") and "font-style: oblique;"
   local italic = propertystring:match("italic") and "font-style: italic;"

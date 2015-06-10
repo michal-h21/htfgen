@@ -1,6 +1,8 @@
 kpse.set_program_name("luatex")
 local M = {}
 
+local fontproperties = require "fontproperties"
+
 local function parse_line(line)
   local line = line or ""
   local clean = line:gsub('%b""',"")
@@ -29,6 +31,6 @@ local t = M.parse_map(encfile)
 for encoding, fonts in pairs(t) do
   print("encoding:",encoding)
   for fontname, properties in pairs(fonts) do
-    print(fontname, properties)
+    print(fontname, fontproperties.make_css(properties))
   end
 end

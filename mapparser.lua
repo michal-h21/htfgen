@@ -29,37 +29,20 @@ end
 local encfile = kpse.find_file("gfsdidot","map")
 print(encfile)
 
+local htflib = require "htflib"
 local utfchar = unicode.utf8.char
 local t = M.parse_map(encfile)
 local checksums = {}
 local missing_glyphs = {}
 for encoding, fonts in pairs(t) do
   print("encoding:",encoding)
-  local s = loadenc.parse(loadenc.load(encoding))
-  local min,max
-  -- table fof concenating encoding chars
-  local t = {}
-  for k,v in pairs(s) do
-    local g = glyphs:getGlyph(v)
-    if g then
-      min = math.min(k, min or k)
-      max = math.max(k, max or k)
-      local ch = tonumber(g,16)
-      if not ch then
-        print("ploblem with char conversion: ", g)
-        ch = 32
-      end
-      t[#t+1] = utfchar(ch) 
---      print(k,v, glyphs:getGlyph(v))
-    elseif v ~= ".notdef" then
-      t[#t+1] = " " 
-      missing_glyphs[v] = encoding
-    end
+  local htf,missing,min,max = htflib.make_htf(encoding)
+  for k,v  in ipairs(htf) do
+    print(table.concat(v,"\t"))
   end
-  -- make checksum of the encoding
-  local checksum = md5.sumhexa(table.concat(t))
-  checksums[checksum] = (checksums[checksum] or 0) + 1
-  print("min-max", min, max, checksum)
+  for k,v in pairs(missing) do
+    missing_glyphs[k] = v
+  end
   -- for fontname, properties in pairs(fonts) do
   --   print(fontname, fontproperties.make_css(properties))
   -- end

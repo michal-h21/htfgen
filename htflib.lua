@@ -17,10 +17,11 @@ function M.make_htf(encoding)
       local hexs = string.format("'&#x%s;'", table.concat(char_parts,";&#x"))
       table.insert(htf_table,{k,v, hexs})
     elseif v ~= ".notdef" then
+      print("missing",k,v)
+      missing_glyphs[v] = encoding
       table.insert(htf_table,{k,v})
     else
       table.insert(htf_table,{k,v})
-      missing_glyphs[v] = encoding
     end
   end
   -- make checksum of the encoding

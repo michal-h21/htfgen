@@ -44,7 +44,7 @@ for encoding, fonts in pairs(t) do
   -- reuse temp table
   local t = {}
   for fontname, properties in pairs(fonts) do
-    t[#t+1]  = htflib.htf_container(fontname, "alias/xxx/", string.format(".%s", encoding) .."\n".."htfcss "..fontname .." "..fontproperties.make_css(properties))
+    t[#t+1]  = htflib.htf_container(fontname, "alias/xxx/", string.format(".%s", encoding) .."\n".."htfcss: "..fontname .." "..fontproperties.make_css(properties))
   end
   print(table.concat(t,"\n\n"))
 end

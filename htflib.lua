@@ -37,4 +37,20 @@ function M.htf_container(name, path, content)
   t[#t+1] = string.format('\\AddFont{%s}{%s%s}{}',name,path,name)
   return table.concat(t,"\n")
 end
+
+
+function M.htf_table(name, htf_table, min,max)
+  local t = {}
+  t[#t+1] = string.format("%s\t%i\t%i",name,min,max)
+  for i = min, max do 
+    local v = htf_table[i] or {}
+    local hex = v[3] or ""
+    local count = v[1] or ""
+    local name = v[2] or ""
+    t[#t+1] = string.format("'%s' '' '%s' %s",hex, name, count)
+  end
+  t[#t+1] = string.format("%s\t%i\t%i",name,min,max)
+  return table.concat(t,"\n")
+end
+
 return M

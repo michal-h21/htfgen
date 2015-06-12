@@ -36,14 +36,8 @@ local checksums = {}
 local missing_glyphs = {}
 for encoding, fonts in pairs(t) do
   local htf,min,max, missing = htflib.make_htf(encoding)
-  local t = {}
-  t[#t+1] = string.format("%s\t%i\t%i",encoding,min,max)
-  for i = min, max do 
-    local v = htf[i] or {}
-    t[#t+1] = table.concat(v,"\t")
-  end
-  t[#t+1] = string.format("%s\t%i\t%i",encoding,min,max)
-  print(htflib.htf_container(encoding, "unicode/xxx/", table.concat(t,"\n")))
+  local htf_table = htflib.htf_table(encoding, htf, min, max)
+  print(htflib.htf_container(encoding, "unicode/xxx/", htf_table))
   for k,v in pairs(missing) do
     missing_glyphs[k] = v
   end

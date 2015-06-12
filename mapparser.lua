@@ -30,14 +30,17 @@ local encfile = kpse.find_file("gfsdidot","map")
 print(encfile)
 
 local htflib = require "htflib"
+-- add suffix to the encoding htf file
+-- we need to add suffix to prevent loading that file for normal fonts
+local encoding_suff = "-ec"
 local utfchar = unicode.utf8.char
 local t = M.parse_map(encfile)
 local checksums = {}
 local missing_glyphs = {}
 for encoding, fonts in pairs(t) do
   local htf,min,max, missing = htflib.make_htf(encoding)
-  local htf_table = htflib.htf_table(encoding, htf, min, max)
-  print(htflib.htf_container(encoding, "unicode/xxx/", htf_table))
+  local htf_table = htflib.htf_table(encoding .. encoding_suff, htf, min, max)
+  print(htflib.htf_container(encoding .. encoding_suff, "unicode/xxx/", htf_table))
   for k,v in pairs(missing) do
     missing_glyphs[k] = v
   end
@@ -49,6 +52,7 @@ for encoding, fonts in pairs(t) do
   print(table.concat(t,"\n\n"))
 end
 if next(missing_glyphs) ~= nil then
+  print "----------------------"
   print "Cannot load unicode values for following glyph names"
   print "Please report these to htfgen issue tracker so we can "
   print "add support for them\n"

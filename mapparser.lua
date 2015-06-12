@@ -35,20 +35,31 @@ local t = M.parse_map(encfile)
 local checksums = {}
 local missing_glyphs = {}
 for encoding, fonts in pairs(t) do
-  print("encoding:",encoding)
-  local htf,missing,min,max = htflib.make_htf(encoding)
-  for k,v  in ipairs(htf) do
-    print(table.concat(v,"\t"))
+  local htf,min,max, missing = htflib.make_htf(encoding)
+  local t = {}
+  t[#t+1] = string.format("%s\t%i\t%i",encoding,min,max)
+  for i = min, max do 
+    local v = htf[i] or {}
+    t[#t+1] = table.concat(v,"\t")
   end
+  t[#t+1] = string.format("%s\t%i\t%i",encoding,min,max)
+  print(htflib.htf_container(encoding, "unicode/xxx/", table.concat(t,"\n")))
   for k,v in pairs(missing) do
     missing_glyphs[k] = v
   end
-  -- for fontname, properties in pairs(fonts) do
-  --   print(fontname, fontproperties.make_css(properties))
-  -- end
+  -- reuse temp table
+  local t = {}
+  for fontname, properties in pairs(fonts) do
+    t[#t+1]  = htflib.htf_container(fontname, "alias/xxx/", string.format(".%s", encoding) .."\n".."htfcss "..fontname .." "..fontproperties.make_css(properties))
+  end
+  print(table.concat(t,"\n\n"))
 end
 if next(missing_glyphs) ~= nil then
   print "Cannot load unicode values for following glyph names"
+  print "Please report these to htfgen issue tracker so we can "
+  print "add support for them\n"
+  print ("Glyph name", "encoding")
+  print ("----------", "--------")
   for k, v in pairs(missing_glyphs) do
     print(k,v)
   end

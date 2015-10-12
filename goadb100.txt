@@ -1169,7 +1169,7 @@ cwmascender;EB11
 cwmcapital;EB12
 D.kali;EB13
 D.out;EB14
-dblgrave.ts1;EB15
+dblgrave.ts1;0060
 died;EB16
 dieresis.ts1;EB17
 dotaccent.superior;EB18

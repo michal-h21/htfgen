@@ -1169,13 +1169,8 @@ cwmascender;EB11
 cwmcapital;EB12
 D.kali;EB13
 D.out;EB14
-<<<<<<< HEAD
-dblgrave.ts1;EB15
-died;uni271D
-=======
 dblgrave.ts1;0060
-died;EB16
->>>>>>> 1ab02c30bf218cc496e7ba96d7884bf64b267743
+died;uni271D
 dieresis.ts1;EB17
 dotaccent.superior;EB18
 dotaccentsuperior;EB18

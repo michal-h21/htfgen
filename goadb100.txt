@@ -1157,7 +1157,7 @@ at.alt;EB05
 B.kali;EB06
 B.out;EB07
 bigcircle;EB08
-born;EB09
+born;uni22C6
 breve.ts1;EB0A
 C.kali;EB0B
 C.out;EB0C
@@ -1170,7 +1170,7 @@ cwmcapital;EB12
 D.kali;EB13
 D.out;EB14
 dblgrave.ts1;EB15
-died;EB16
+died;uni271D
 dieresis.ts1;EB17
 dotaccent.superior;EB18
 dotaccentsuperior;EB18
@@ -1203,8 +1203,8 @@ H.out;EB2D
 hungarumlaut.ts1;EB2E
 hyphen.alt;2010
 hyphen.prop;EB30
-hyphendbl;EB31
-hyphendbl.alt;EB32
+hyphendbl;uniFE66
+hyphendbl.alt;uniFE66
 I.kali;EB33
 I.out;EB34
 Iogonekacute;EB35
@@ -1255,10 +1255,10 @@ sterlingsuperior;EB60
 suppress;EB61
 T.kali;EB61
 T.out;EB62
-tieaccentcapital;EB63
-tieaccentcapital.new;EB64
-tieaccentlowercase;EB65
-tieaccentlowercase.new;EB66
+tieaccentcapital;uni0361
+tieaccentcapital.new;uni0361
+tieaccentlowercase;uni2040
+tieaccentlowercase.new;uni2040
 tildelow;EB67
 tildewide;EB68
 tildewider;EB69

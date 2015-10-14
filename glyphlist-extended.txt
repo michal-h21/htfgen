@@ -4398,7 +4398,7 @@ triangleright;25C3
 turnstileleft;22A2
 turnstileright;22A3
 # twelveudash: 2/3-em dash; invalid Unicode
-twelveudash;D80C
+twelveudash;F6DE
 unionmulti;228E
 unionsq;2294
 vector;20D7

@@ -1263,7 +1263,7 @@ tildelow;002DC
 tildewide;EB68
 tildewider;EB69
 tildewidest;EB6A
-twelveudash;EB6B
+twelveudash;???
 U.kali;EB6C
 U.out;EB6D
 Ubrevebelowinverted;EB6E

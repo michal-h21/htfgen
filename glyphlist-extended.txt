@@ -1838,9 +1838,13 @@ fehmedialarabic;FED4
 feicoptic;03E5
 female;2640
 ff;FB00
+f_f;FB00
 ffi;FB03
+f_f_i;FB03
 ffl;FB04
+f_f_l;FB04
 fi;FB01
+f_i;FB01
 fifteencircle;246E
 fifteenparen;2482
 fifteenperiod;2496
@@ -1888,6 +1892,7 @@ fiveroman;2174
 fivesuperior;2075
 fivethai;0E55
 fl;FB02
+f_l;FB02
 florin;0192
 fmonospace;FF46
 fmsquare;3399

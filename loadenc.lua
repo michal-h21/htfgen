@@ -19,7 +19,7 @@ loadenc.parse = function(s)
 	local s = s or ""
   local t = {}
   local i = 0
-  s:gsub("/([%a%.0-9]+)", function(a)
+  s:gsub("/([%a%.0-9%_]+)", function(a)
     t[i] = a
     i = i + 1
   end)

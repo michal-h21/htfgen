@@ -12,6 +12,7 @@ end
 -- pl: string with contents of pl file
 parsepl.parse = function(pl,actions)
   local actions = actions or parsepl.actions
+  local pl = pl or ""
   local t = {}
   pl:gsub("(%b())",function(list)
     local action,list = parsepl.prepare_entry(list)

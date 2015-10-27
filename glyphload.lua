@@ -4,7 +4,7 @@ local load_glyphlist = function(file, t)
 	local t = t or {}
 	if not file then return t, "No glyph list file" end
   for line in io.lines(file) do
-    local glyph, hex = line:match("([%a%.0-9]+);([%a0-9 ]+)")
+    local glyph, hex = line:match("([%a%.0-9%_]+);([%a0-9 ]+)")
     if glyph then
       hex = hex:gsub("%s*$","")
       t[glyph] = hex

@@ -17,10 +17,13 @@
 
 ###   2. Standard high unicodes FB00 .. FB06
 ff;FB00
+f_f;FB00
 ffi;FB03
+f_f_i;FB03
 ffl;FB04
+f_f_l;FB04
 fi;FB01
-fl;FB02
+f_i;FB01
 s_t;FB06
 Aacute;00C1
 aacute;00E1

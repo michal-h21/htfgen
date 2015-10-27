@@ -54,7 +54,9 @@ local function make_line(number, map)
 		chars[#chars+1] = v[1]
 		glyphs[#glyphs+1] = v[2]
 	end
-	print(number, table.concat(chars,"; "), table.concat(glyphs,"; "))
+  if #chars > 0 and #glyphs > 0 then
+    print(number, table.concat(chars,"; "), table.concat(glyphs,"; "))
+  end
 end
 
 for k,v in pairs(t) do

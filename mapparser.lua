@@ -4,6 +4,7 @@ local M = {}
 local fontproperties = require "fontproperties"
 local loadenc = require "loadenc"
 local glyphs = require "glyphload"
+local template = require "litfonts-template"
 
 local function parse_line(line)
   local line = line or ""
@@ -29,7 +30,9 @@ end
 local mapname = arg[1] or "libertine"
 local encfile = kpse.find_file(mapname,"map")
 -- local encfile = kpse.find_file("gfsdidot","map")
-print(encfile)
+-- print(encfile)
+
+print(template.head)
 
 local htflib = require "htflib"
 -- add suffix to the encoding htf file
@@ -53,15 +56,17 @@ for encoding, fonts in pairs(t) do
   end
   print(table.concat(t,"\n\n"))
 end
+
+print(template.foot)
 if next(missing_glyphs) ~= nil then
-  print "----------------------"
-  print "Cannot load unicode values for following glyph names"
-  print "Please report these to htfgen issue tracker so we can "
-  print "add support for them\n"
-  print ("Glyph name", "encoding")
-  print ("----------", "--------")
+  print "% ----------------------"
+  print "% Cannot load unicode values for following glyph names"
+  print "% Please report these to htfgen issue tracker so we can "
+  print "% add support for them\n"
+  print ("% Glyph name", "encoding")
+  print ("% ----------", "--------")
   for k, v in pairs(missing_glyphs) do
-    print(k,v)
+    print("% ".. k,v)
   end
 end
 

@@ -8,7 +8,7 @@ local glyphs = require "glyphload"
 local function parse_line(line)
   local line = line or ""
   local clean = line:gsub('%b""',"")
-  local fontname, properties, encfile = clean:match("([^%s]+)[%s]+([^%s]+)[%s]+<(.+).enc")
+  local fontname, properties, encfile = clean:match("([^%s]+)[%s]+([^%s]+)[%s]+<%[?(.+).enc")
   return fontname, properties, encfile
 end
 function M.parse_map(filename) 
@@ -26,7 +26,9 @@ function M.parse_map(filename)
   return t
 end
 
-local encfile = kpse.find_file("gfsdidot","map")
+local mapname = arg[1] or "libertine"
+local encfile = kpse.find_file(mapname,"map")
+-- local encfile = kpse.find_file("gfsdidot","map")
 print(encfile)
 
 local htflib = require "htflib"

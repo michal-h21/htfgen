@@ -27,6 +27,15 @@ function M.parse_map(filename)
   return t
 end
 
+local function make_checksum(htftable)
+  local t =  {}
+  for _, k in pairs(htftable) do
+    table.insert(t,k[2])
+  end
+  return md5.sumhexa(table.concat(t))
+  -- return table.concat(t)
+end
+
 local mapname = arg[1] or "libertine"
 local encfile = kpse.find_file(mapname,"map")
 -- local encfile = kpse.find_file("gfsdidot","map")
@@ -45,6 +54,8 @@ local missing_glyphs = {}
 for encoding, fonts in pairs(t) do
   local htf,min,max, missing = htflib.make_htf(encoding)
   local htf_table = htflib.htf_table(encoding .. encoding_suff, htf, min, max)
+  checksums[encoding] = make_checksum(htf)
+  
   print(htflib.htf_container(encoding .. encoding_suff, "unicode/".. mapname .. "/", htf_table))
   for k,v in pairs(missing) do
     missing_glyphs[k] = v

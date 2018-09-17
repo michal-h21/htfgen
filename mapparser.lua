@@ -45,14 +45,14 @@ local missing_glyphs = {}
 for encoding, fonts in pairs(t) do
   local htf,min,max, missing = htflib.make_htf(encoding)
   local htf_table = htflib.htf_table(encoding .. encoding_suff, htf, min, max)
-  print(htflib.htf_container(encoding .. encoding_suff, "unicode/xxx/", htf_table))
+  print(htflib.htf_container(encoding .. encoding_suff, "unicode/".. mapname .. "/", htf_table))
   for k,v in pairs(missing) do
     missing_glyphs[k] = v
   end
   -- reuse temp table
   local t = {}
   for fontname, properties in pairs(fonts) do
-    t[#t+1]  = htflib.htf_container(fontname, "alias/xxx/", string.format(".%s", encoding) .."\n".."htfcss: "..fontname .." "..fontproperties.make_css(properties))
+    t[#t+1]  = htflib.htf_container(fontname, "alias/".. mapname .. "/", string.format(".%s", encoding .. encoding_suff) .."\n".."htfcss: "..fontname .." "..fontproperties.make_css(properties))
   end
   print(table.concat(t,"\n\n"))
 end

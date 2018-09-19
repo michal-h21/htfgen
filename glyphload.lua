@@ -42,6 +42,9 @@ local parse_glyphlist = function()
 	t = load_glyphlist(basedir .. "goadb100.txt", t)
 	t = load_alt_glyphs(t)
 	t = load_glyphlist(basedir .. "glyphlist-extended.txt", t)
+  -- file with fixes for wrong glyphs to unicode mappings 
+  -- especially the ones that map to PUA
+  t = load_glyphlist(basedir .. "glyphlist-fixes.txt", t)
   t =  setmetatable({},{__index = t})
 	t.getGlyph = function(self,x)
 		local x = x or ""

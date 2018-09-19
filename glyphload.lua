@@ -48,10 +48,15 @@ local parse_glyphlist = function()
   t =  setmetatable({},{__index = t})
 	t.getGlyph = function(self,x)
 		local x = x or ""
+    -- match glyph in the glyph table
 		local y = self[x]  
 		if y then return y end
+    -- glyph name may be actually unicode value
 		local c =  x:match("u[n]?[i]?([A-Fa-f0-9]+)")
-		return c
+    if c then return c end
+    -- test only part of glyph before "." -- disregard the modifier after it
+    local basepart = x:match("^([^%.]+)") or ""
+    return self[basepart]
 	end
 	return t
 	--]]

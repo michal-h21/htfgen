@@ -30,7 +30,7 @@ end
 local function make_checksum(htftable)
   local t =  {}
   for _, k in pairs(htftable) do
-    table.insert(t,k[2])
+    table.insert(t,k[3])
   end
   return md5.sumhexa(table.concat(t))
   -- return table.concat(t)
@@ -81,6 +81,17 @@ if next(missing_glyphs) ~= nil then
   end
 end
 
-for chk, cnt in pairs(checksums) do
-  print(chk, cnt)
+
+local saved_checksums = {}
+for enc, cnt in pairs(checksums) do
+  local encodings = saved_checksums[cnt] or {}
+  encodings[#encodings+1] = enc
+  saved_checksums[cnt] = encodings
+  -- print(chk, cnt)
+end
+
+local i = 1
+for k,v in pairs(saved_checksums) do
+  print(i, k, #v)
+  i = i + 1
 end

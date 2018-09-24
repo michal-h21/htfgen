@@ -102,5 +102,6 @@ for k,v in pairs(saved_checksums) do
 end
 
 for name, _ in pairs(pfbfiles) do
-  print("pfb", pfbparser.parse_pfbfile(kpse.find_file(name,"type1 fonts")))
+  familyname, styles = pfbparser.parse_pfbfile(kpse.find_file(name,"type1 fonts"))
+  print(familyname, fontproperties.make_css(familyname .. styles))
 end

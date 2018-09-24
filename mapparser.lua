@@ -5,21 +5,22 @@ local fontproperties = require "fontproperties"
 local loadenc = require "loadenc"
 local glyphs = require "glyphload"
 local template = require "litfonts-template"
+local pfbparser = require "pfbparser"
 
 local function parse_line(line)
   local line = line or ""
   local clean = line:gsub('%b""',"")
-  local fontname, properties, encfile = clean:match("([^%s]+)[%s]+([^%s]+)[%s]+<%[?(.+).enc")
-  return fontname, properties, encfile
+  local fontname, properties, encfile, pfbfile = clean:match("([^%s]+)[%s]+([^%s]+)[%s]+<%[?(.+).enc[%s]+<(.+)")
+  return fontname, properties, encfile, pfbfile
 end
 function M.parse_map(filename) 
   local t = {}
   for line in io.lines(filename) do
-    local fontname, properties, encoding =  parse_line(line) 
+    local fontname, properties, encoding, pfbfile =  parse_line(line) 
     if fontname then
       -- get fonts with current encoding
       local encfonts = t[encoding] or {}
-      encfonts[fontname] = properties
+      encfonts[fontname] = {properties = properties, fontfile = pfbfile}
       -- save updated fonts 
       t[encoding] = encfonts 
     end
@@ -51,6 +52,8 @@ local utfchar = unicode.utf8.char
 local t = M.parse_map(encfile)
 local checksums = {}
 local missing_glyphs = {}
+-- save used pfbfiles 
+local pfbfiles = {}
 for encoding, fonts in pairs(t) do
   local htf,min,max, missing = htflib.make_htf(encoding)
   local htf_table = htflib.htf_table(encoding .. encoding_suff, htf, min, max)
@@ -62,8 +65,10 @@ for encoding, fonts in pairs(t) do
   end
   -- reuse temp table
   local t = {}
-  for fontname, properties in pairs(fonts) do
+  for fontname, conf in pairs(fonts) do
+    local properties = conf.properties
     t[#t+1]  = htflib.htf_container(fontname, "alias/".. mapname .. "/", string.format(".%s", encoding .. encoding_suff) .."\n".."htfcss: "..fontname .." "..fontproperties.make_css(properties))
+    pfbfiles[conf.fontfile] = true
   end
   print(table.concat(t,"\n\n"))
 end
@@ -94,4 +99,8 @@ local i = 1
 for k,v in pairs(saved_checksums) do
   print(i, k, #v)
   i = i + 1
+end
+
+for name, _ in pairs(pfbfiles) do
+  print("pfb", pfbparser.parse_pfbfile(kpse.find_file(name,"type1 fonts")))
 end

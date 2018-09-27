@@ -1,3 +1,4 @@
+-- list all used encodings in TeX font
 kpse.set_program_name("luatex")
 local lsenclib = require "lsenc-lib"
 
@@ -11,6 +12,7 @@ end
 local function print_r (rec, indent)
   local indent = indent or 0
   print_enc(rec.name, rec.enc, rec.font_type, indent)
+  -- if the font is virtual, it may be composed from many other fonts
   if rec.children then
     for _, x in ipairs(rec.children) do
       print_r(x, indent + 1)

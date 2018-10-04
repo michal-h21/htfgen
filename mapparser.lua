@@ -1,32 +1,11 @@
 kpse.set_program_name("luatex")
-local M = {}
 
 local fontproperties = require "fontproperties"
 local loadenc = require "loadenc"
 local glyphs = require "glyphload"
 local template = require "litfonts-template"
 local pfbparser = require "pfbparser"
-
-local function parse_line(line)
-  local line = line or ""
-  local clean = line:gsub('%b""',"")
-  local fontname, properties, encfile, pfbfile = clean:match("([^%s]+)[%s]+([^%s]+)[%s]+<%[?(.+).enc[%s]+<(.+)")
-  return fontname, properties, encfile, pfbfile
-end
-function M.parse_map(filename) 
-  local t = {}
-  for line in io.lines(filename) do
-    local fontname, properties, encoding, pfbfile =  parse_line(line) 
-    if fontname then
-      -- get fonts with current encoding
-      local encfonts = t[encoding] or {}
-      encfonts[fontname] = {properties = properties, fontfile = pfbfile}
-      -- save updated fonts 
-      t[encoding] = encfonts 
-    end
-  end
-  return t
-end
+local maplib = require "htflibs.maplib"
 
 local function make_checksum(htftable)
   local t =  {}
@@ -49,7 +28,7 @@ local htflib = require "htflib"
 -- we need to add suffix to prevent loading that file for normal fonts
 local encoding_suff = "-ec"
 local utfchar = unicode.utf8.char
-local t = M.parse_map(encfile)
+local t = maplib.parse_map(encfile)
 local checksums = {}
 local missing_glyphs = {}
 -- save used pfbfiles 

@@ -4,8 +4,9 @@ local fontproperties = require "fontproperties"
 local loadenc = require "loadenc"
 local glyphs = require "glyphload"
 local template = require "litfonts-template"
-local pfbparser = require "pfbparser"
+local pfbparser = require "htflibs.pfbparser"
 local maplib = require "htflibs.maplib"
+local htflib = require "htflibs.htflib"
 
 local function make_checksum(htftable)
   local t =  {}
@@ -23,7 +24,6 @@ local encfile = kpse.find_file(mapname,"map")
 
 print(template.head)
 
-local htflib = require "htflib"
 -- add suffix to the encoding htf file
 -- we need to add suffix to prevent loading that file for normal fonts
 local encoding_suff = "-ec"

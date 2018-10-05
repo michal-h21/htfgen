@@ -1,4 +1,4 @@
-local parsepl = require "parsepl"
+local parsepl = require "htflibs.parsepl"
 local pl_loader = require "pl_loader"
 
 local M = {}

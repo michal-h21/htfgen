@@ -5,6 +5,7 @@ local fontobj = require "htflibs.fontobj"
 
 describe("Fontobj test", function()
   local fonts = fontobj("libertine")
+  fonts.maxvf = 10
   it("Should load the map file", function()
     assert.is_table(fonts.map)
   end)

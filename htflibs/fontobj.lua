@@ -47,6 +47,14 @@ end
 function fontobj:resolve_characters(used_fonts, list)
 end
 
+function fontobj:load_virtual_font(filename, basename)
+  local pl = load_plist("vftovp", filename)
+  local list = parsepl.parse(pl)
+  local params, msg = self:load_font(basename, list)
+  if not params then self:err(msg) end
+  return params
+end
+
 -- the dir should be relative to the fontobj.vfdir
 function fontobj:load_virtualfonts(dir)
   local virtuals = {}
@@ -55,15 +63,12 @@ function fontobj:load_virtualfonts(dir)
   for name in lfs.dir(vfdir) do
     -- parse just 10 records to speed testing
     i = i + 1
-    if i > 10 then break end
+    if i > self.maxvf then break end
     local basename = name:gsub(".vf$", "")
     local filename = vfdir .. "/" .. name
     -- test if it is valid file
     if lfs.attributes(filename)["mode"] == "file" then
-      local pl = load_plist("vftovp", filename)
-      local list = parsepl.parse(pl)
-      local params, msg = self:load_font(basename, list)
-      if not status then self:err(msg) end
+      local params = self:load_virtual_font(filename, basename)
       virtuals[basename] = params
     end
   end
@@ -75,6 +80,8 @@ end
 -- return constructor
 return function(mapname)
   local encfile = kpse.find_file(mapname,"map")
+  -- set to a different value for testing purposes
+  fontobj.maxvf = 100000000
   _, fontobj.map = maplib.parse_map(encfile)
   -- path to virtual fonts directory
   fontobj.vfdir =  kpse.expand_var("$TEXMFDIST") .. "/fonts/vf"

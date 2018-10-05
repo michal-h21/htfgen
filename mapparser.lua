@@ -2,7 +2,7 @@ kpse.set_program_name("luatex")
 
 local fontproperties = require "fontproperties"
 local loadenc = require "loadenc"
-local glyphs = require "glyphload"
+local glyphs = require "htflibs.glyphload"
 local template = require "litfonts-template"
 local pfbparser = require "htflibs.pfbparser"
 local maplib = require "htflibs.maplib"

@@ -1,6 +1,6 @@
 local M = {}
 local loadenc = require "loadenc"
-local glyphs = require "glyphload"
+local glyphs = require "htflibs.glyphload"
 
 function M.make_htf(encoding)
   local s = loadenc.parse(loadenc.load(encoding))

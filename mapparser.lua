@@ -1,36 +1,17 @@
 kpse.set_program_name("luatex")
-local M = {}
 
 local fontproperties = require "fontproperties"
 local loadenc = require "loadenc"
 local glyphs = require "glyphload"
 local template = require "litfonts-template"
-
-local function parse_line(line)
-  local line = line or ""
-  local clean = line:gsub('%b""',"")
-  local fontname, properties, encfile = clean:match("([^%s]+)[%s]+([^%s]+)[%s]+<%[?(.+).enc")
-  return fontname, properties, encfile
-end
-function M.parse_map(filename) 
-  local t = {}
-  for line in io.lines(filename) do
-    local fontname, properties, encoding =  parse_line(line) 
-    if fontname then
-      -- get fonts with current encoding
-      local encfonts = t[encoding] or {}
-      encfonts[fontname] = properties
-      -- save updated fonts 
-      t[encoding] = encfonts 
-    end
-  end
-  return t
-end
+local pfbparser = require "htflibs.pfbparser"
+local maplib = require "htflibs.maplib"
+local htflib = require "htflibs.htflib"
 
 local function make_checksum(htftable)
   local t =  {}
   for _, k in pairs(htftable) do
-    table.insert(t,k[2])
+    table.insert(t,k[3])
   end
   return md5.sumhexa(table.concat(t))
   -- return table.concat(t)
@@ -43,14 +24,15 @@ local encfile = kpse.find_file(mapname,"map")
 
 print(template.head)
 
-local htflib = require "htflib"
 -- add suffix to the encoding htf file
 -- we need to add suffix to prevent loading that file for normal fonts
 local encoding_suff = "-ec"
 local utfchar = unicode.utf8.char
-local t = M.parse_map(encfile)
+local t = maplib.parse_map(encfile)
 local checksums = {}
 local missing_glyphs = {}
+-- save used pfbfiles 
+local pfbfiles = {}
 for encoding, fonts in pairs(t) do
   local htf,min,max, missing = htflib.make_htf(encoding)
   local htf_table = htflib.htf_table(encoding .. encoding_suff, htf, min, max)
@@ -62,8 +44,10 @@ for encoding, fonts in pairs(t) do
   end
   -- reuse temp table
   local t = {}
-  for fontname, properties in pairs(fonts) do
+  for fontname, conf in pairs(fonts) do
+    local properties = conf.properties
     t[#t+1]  = htflib.htf_container(fontname, "alias/".. mapname .. "/", string.format(".%s", encoding .. encoding_suff) .."\n".."htfcss: "..fontname .." "..fontproperties.make_css(properties))
+    pfbfiles[conf.fontfile] = true
   end
   print(table.concat(t,"\n\n"))
 end
@@ -81,6 +65,22 @@ if next(missing_glyphs) ~= nil then
   end
 end
 
-for chk, cnt in pairs(checksums) do
-  print(chk, cnt)
+
+local saved_checksums = {}
+for enc, cnt in pairs(checksums) do
+  local encodings = saved_checksums[cnt] or {}
+  encodings[#encodings+1] = enc
+  saved_checksums[cnt] = encodings
+  -- print(chk, cnt)
+end
+
+local i = 1
+for k,v in pairs(saved_checksums) do
+  print(i, k, #v)
+  i = i + 1
+end
+
+for name, _ in pairs(pfbfiles) do
+  familyname, styles = pfbparser.parse_pfbfile(kpse.find_file(name,"type1 fonts"))
+  print(familyname, fontproperties.make_css(familyname .. styles))
 end

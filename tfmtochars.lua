@@ -1,6 +1,6 @@
 kpse.set_program_name("luatex")
 local parsepl = require "htflibs.parsepl"
-local pl_loader = require "pl_loader"
+local pl_loader = require "htflibs.pl_loader"
 local loadenc = require "loadenc"
 local glyphs = require "htflibs.glyphload"
 

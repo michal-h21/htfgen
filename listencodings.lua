@@ -2,13 +2,15 @@
 -- that it is impossible.
 --
 kpse.set_program_name("luatex")
-local pl = require "pl_loader"
+local pl = require "htflibs.pl_loader"
 
 local texmf = kpse.expand_var("$TEXMFDIST") .. "/fonts/tfm"
 
+print "find all tfm files"
 local command = io.popen("find "..texmf .." -name *.tfm","r")
 local result = command:read("*all")
 command:close()
+print("tfm files found")
 
 local get_enc = function(f)
 	local cmd = assert(io.popen("tftopl "..f, "r"))
@@ -22,6 +24,7 @@ end
 local encodings = {}
 for i,line in ipairs(result:explode("\n")) do
 	local enc =  get_enc(line)
+  print("enc", enc)
 	local i = encodings[enc] or 0
 	i = i + 1
 	encodings[enc] = i

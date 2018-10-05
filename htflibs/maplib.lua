@@ -8,17 +8,21 @@ local function parse_line(line)
 end
 function M.parse_map(filename) 
   local t = {}
+  local fonts = {}
   for line in io.lines(filename) do
     local fontname, properties, encoding, pfbfile =  parse_line(line) 
     if fontname then
       -- get fonts with current encoding
       local encfonts = t[encoding] or {}
-      encfonts[fontname] = {properties = properties, fontfile = pfbfile}
+      local record = {properties = properties, fontfile = pfbfile, encoding = encoding}
+      encfonts[fontname] = record
+      fonts[fontname] = record
       -- save updated fonts 
       t[encoding] = encfonts 
     end
   end
-  return t
+  -- return encodings and fonts
+  return t, fonts
 end
 
 return M

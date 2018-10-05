@@ -32,7 +32,8 @@ function fontobj:load_font(fontname, list)
       end
       self:load_enc(mapfont.encoding)
       params.style = self:load_style(mapfont.fontfile)
-      table.insert(used_fonts, mapfont)
+      v.encoding = mapfont.encoding
+      table.insert(used_fonts, v)
       -- print(mapfont, v.name, v.identifier)
     end
   end
@@ -52,6 +53,7 @@ function fontobj:load_style(fontfile)
   if not self.fontfiles[fontfile] then
     local familyname, styles = pfbparser.parse_pfbfile(kpse.find_file(fontfile,"type1 fonts"))
     if styles then
+      -- ToDo: parse the style information for CSS
       local obj = {styles = styles, familyname = familyname}
       self.fontfiles[fontfile] = obj
       print(familyname, styles)
@@ -61,6 +63,10 @@ function fontobj:load_style(fontfile)
 end
 
 function fontobj:resolve_characters(used_fonts, list)
+  for _,v in ipairs(used_fonts) do
+    print(v.identifier)
+    print(self.encodings[v.encoding])
+  end
 end
 
 function fontobj:load_virtual_font(filename, basename)

@@ -1,6 +1,6 @@
 -- list all used encodings in TeX font
 kpse.set_program_name("luatex")
-local lsenclib = require "lsenc-lib"
+local lsenclib = require "htflibs.lsenc-lib"
 
 local name = arg[1] or "ntxmia"
 

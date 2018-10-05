@@ -1,7 +1,9 @@
 local M = {}
 local lfs = require "lfs"
 local maplib = require "htflibs.maplib"
+local loadenc = require "loadenc"
 local parsepl = require "htflibs.parsepl"
+local pfbparser = require "htflibs.pfbparser"
 local pl_loader = require "htflibs.pl_loader"
 
 local load_plist = function(prg,name)
@@ -39,9 +41,23 @@ function fontobj:load_font(fontname, list)
 end
 
 function fontobj:load_enc(encoding)
+  print("loading encoding: ", encoding)
+  if not self.encodings[encoding] then
+    self.encodings[encoding] = loadenc.load(encoding)
+  end
 end
 
 function fontobj:load_style(fontfile)
+  print("loading font style: ", fontfile)
+  if not self.fontfiles[fontfile] then
+    local familyname, styles = pfbparser.parse_pfbfile(kpse.find_file(fontfile,"type1 fonts"))
+    if styles then
+      local obj = {styles = styles, familyname = familyname}
+      self.fontfiles[fontfile] = obj
+      print(familyname, styles)
+    end
+  end
+  return self.fontfiles[fontfile]
 end
 
 function fontobj:resolve_characters(used_fonts, list)
@@ -56,7 +72,7 @@ function fontobj:load_virtual_font(filename, basename)
 end
 
 -- the dir should be relative to the fontobj.vfdir
-function fontobj:load_virtualfonts(dir)
+function fontobj:load_virtual_fonts(dir)
   local virtuals = {}
   local vfdir = self.vfdir .. "/" .. dir
   local i = 0 
@@ -82,6 +98,8 @@ return function(mapname)
   local encfile = kpse.find_file(mapname,"map")
   -- set to a different value for testing purposes
   fontobj.maxvf = 100000000
+  fontobj.encodings = {}
+  fontobj.fontfiles = {}
   _, fontobj.map = maplib.parse_map(encfile)
   -- path to virtual fonts directory
   fontobj.vfdir =  kpse.expand_var("$TEXMFDIST") .. "/fonts/vf"

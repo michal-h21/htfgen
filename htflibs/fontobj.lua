@@ -1,6 +1,7 @@
 local M = {}
 local lfs = require "lfs"
 local maplib = require "htflibs.maplib"
+local glyphs = require "htflibs.glyphload"
 local loadenc = require "loadenc"
 local parsepl = require "htflibs.parsepl"
 local pfbparser = require "htflibs.pfbparser"
@@ -44,7 +45,10 @@ end
 function fontobj:load_enc(encoding)
   print("loading encoding: ", encoding)
   if not self.encodings[encoding] then
-    self.encodings[encoding] = loadenc.load(encoding)
+    local rawenc = loadenc.load(encoding)
+    if rawenc then
+      self.encodings[encoding] = loadenc.parse(rawenc)
+    end
   end
 end
 
@@ -62,11 +66,42 @@ function fontobj:load_style(fontfile)
   return self.fontfiles[fontfile]
 end
 
+-- translate font list to the unicode character table
 function fontobj:resolve_characters(used_fonts, list)
+  local encodings = {}
+  local chartable = {}
+  local default_encoding 
   for _,v in ipairs(used_fonts) do
-    print(v.identifier)
-    print(self.encodings[v.encoding])
+    local enc_pos = v.identifier
+    encodings[enc_pos] = self.encodings[v.encoding]
+    -- select first encoding as the default encoding
+    default_encoding = default_encoding or self.encodings[v.encoding]
   end
+  for _, v in ipairs(list) do
+    if v.type == "character" then
+      local current_glyphs = {}
+      -- find the glyphs in the default encoding unless diferent encoding is selected
+      local current_enc = default_encoding
+      local current_chars = {}
+      for _,h in ipairs(v.map) do 
+        if h.type == "selectfont" then
+          -- select encoding by the name stored in the list
+          current_enc = encodings[h.value]
+        elseif h.type == "setchar" then
+          -- get the glyph from the current encoding
+          local glyph = current_enc[h.value]
+          -- insert unicode value for the glyph
+          table.insert(current_chars, glyphs:getGlyph(glyph) or "")
+          table.insert(current_glyphs, glyph)
+        end
+      end
+      local chars = table.concat(current_chars,";")
+      print(v.value, chars, unicode.utf8.char(tonumber(chars,16) or 32), table.concat(current_glyphs, ";")) 
+      chartable[v.value] = chars
+    end
+
+  end
+  return chartable
 end
 
 function fontobj:load_virtual_font(filename)

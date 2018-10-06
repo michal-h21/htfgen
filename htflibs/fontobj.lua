@@ -69,7 +69,8 @@ function fontobj:resolve_characters(used_fonts, list)
   end
 end
 
-function fontobj:load_virtual_font(filename, basename)
+function fontobj:load_virtual_font(filename)
+  local basename = filename:match("([^%/]+)%.vf$")
   local pl = load_plist("vftovp", filename)
   local list = parsepl.parse(pl)
   local params, msg = self:load_font(basename, list)
@@ -78,6 +79,7 @@ function fontobj:load_virtual_font(filename, basename)
 end
 
 -- the dir should be relative to the fontobj.vfdir
+-- this function should be probably moved to a support script
 function fontobj:load_virtual_fonts(dir)
   local virtuals = {}
   local vfdir = self.vfdir .. "/" .. dir

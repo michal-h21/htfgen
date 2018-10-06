@@ -1,4 +1,5 @@
-local basedir = arg[0]:match("(.+)/[^%/]+") or "."
+-- local basedir = arg[0]:match("(.+)/[^%/]+") or "."
+local basedir = arg[0]:match("(.+%/htfgen%/)") or "."
 basedir = basedir .. "/glyphlists/"
 local load_glyphlist = function(file, t)
 	local t = t or {}

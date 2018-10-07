@@ -19,6 +19,9 @@ local is_pua = function(number)
   return false
 end
 
+local make_entity = function(hex)
+  return "&#x" .. hex .. ";"
+end
 
 local load_glyphlist = function(file, t)
 	local t = t or {}
@@ -28,7 +31,7 @@ local load_glyphlist = function(file, t)
     if glyph then
       hex = hex:gsub("%s*$","")
       if not is_pua(hex) then
-        t[glyph] = hex
+        t[glyph] = make_entity(hex)
       end
     end
   end
@@ -45,7 +48,7 @@ local load_alt_glyphs = function(t)
 				local c = string.explode(line," ")
 				c[#c] = nil
 				for _,item in ipairs(c)  do
-					t[item] = hex
+					t[item] = make_entity(hex)
 				end
 			end
 		end

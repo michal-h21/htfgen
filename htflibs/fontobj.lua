@@ -39,6 +39,9 @@ function fontobj:load_font(fontname, list)
     end
   end
   params.characters = self:resolve_characters(used_fonts, list)
+  params.min, params.max = self:get_font_range(params)
+  params.hash = self:get_hash(params)
+  print("hash", params.hash)
   return params
 end
 
@@ -64,6 +67,30 @@ function fontobj:load_style(fontfile)
     end
   end
   return self.fontfiles[fontfile]
+end
+
+-- find lowest and highest character in the font
+function fontobj:get_font_range(params)
+  local min, max
+  for k, _ in pairs(params.characters) do
+    min = math.min(k, min or k)
+    max = math.max(k, max or k)
+  end
+  print("min, max", min, max)
+  return min, max
+end
+
+-- calculate font hash
+function fontobj:get_hash(params)
+  local characters = params.characters
+  local t = {}
+  -- loop over font characters, we can't use ipairs as there may be holes
+  -- and min can be zero
+  for i = params.min, params.max do
+    t[#t+1] = characters[i]
+  end
+  return md5.sumhexa(table.concat(t))
+
 end
 
 -- translate font list to the unicode character table

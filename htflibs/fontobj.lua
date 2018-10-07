@@ -83,6 +83,7 @@ function fontobj:resolve_characters(used_fonts, list)
       -- find the glyphs in the default encoding unless diferent encoding is selected
       local current_enc = default_encoding
       local current_chars = {}
+      local current_unicodes = {}
       for _,h in ipairs(v.map) do 
         if h.type == "selectfont" then
           -- select encoding by the name stored in the list
@@ -91,12 +92,15 @@ function fontobj:resolve_characters(used_fonts, list)
           -- get the glyph from the current encoding
           local glyph = current_enc[h.value]
           -- insert unicode value for the glyph
-          table.insert(current_chars, glyphs:getGlyph(glyph) or "")
+          local glyph_value = glyphs:getGlyph(glyph) or ""
+          table.insert(current_chars, glyph_value)
           table.insert(current_glyphs, glyph)
+          -- table.insert(current_unicodes, unicode.utf8.char(tonumber(glyph_value:sub(3), 16) or 32) or glyph_value)
+          table.insert(current_unicodes, unicode.utf8.char(tonumber(glyph_value:sub(4):gsub(";$", ""),16) or 32) )
         end
       end
-      local chars = table.concat(current_chars,";")
-      print(v.value, chars, unicode.utf8.char(tonumber(chars,16) or 32), table.concat(current_glyphs, ";")) 
+      local chars = table.concat(current_chars,"")
+      print(v.value, chars, table.concat(current_unicodes), table.concat(current_glyphs, " ")) 
       chartable[v.value] = chars
     end
 

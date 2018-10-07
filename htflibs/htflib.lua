@@ -14,7 +14,8 @@ function M.make_htf(encoding)
       min = math.min(k, min or k)
       max = math.max(k, max or k)
       local char_parts = string.explode(g," ")
-      local hexs = string.format("'&#x%s;'", table.concat(char_parts,";&#x"))
+      -- local hexs = string.format("'&#x%s;'", table.concat(char_parts,";&#x"))
+      local hexs = table.concat(char_parts)
       htf_table[k] = {k,v, hexs}
     elseif v ~= ".notdef" then
       -- print("missing",k,v)

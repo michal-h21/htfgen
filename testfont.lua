@@ -13,7 +13,7 @@ local template = [[
 \count0=0
 \loop
 \ifnum\count0<256
-\the\count0\ \bgroup\x\char\count0\egroup\par
+\the\count0\ \bgroup\x\char\count0\egroup\ \Picture+{}\char\count0\EndPicture\par
 \advance\count0 by1\relax
 \repeat
 \end{document}
@@ -21,9 +21,9 @@ local template = [[
 
 template = template:gsub("${font}", font)
 
-local pdflatex = io.popen("pdflatex -jobname="..font,"w")
-pdflatex:write(template)
-pdflatex:close()
+-- local pdflatex = io.popen("pdflatex -jobname="..font,"w")
+-- pdflatex:write(template)
+-- pdflatex:close()
 
 template = '\\RequirePackage[xhtml,charset=utf-8]{tex4ht}' .. template
 
@@ -32,3 +32,4 @@ htlatex:write(template)
 htlatex:close()
 
 os.execute("tex4ht -cunihtf -utf8 "..font)
+os.execute("t4ht "..font)

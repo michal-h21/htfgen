@@ -1,6 +1,25 @@
 -- local basedir = arg[0]:match("(.+)/[^%/]+") or "."
 local basedir = arg[0]:match("(.+%/htfgen%/)") or "."
 basedir = basedir .. "/glyphlists/"
+
+-- the glyph lists contain glyphs that point to Unicode Private Use Areas, we need to skip such glyphs
+-- as they are not supported in browsers
+local puas = {{0xE000, 0xF8FF}, {0xF0000, 0xFFFFD}, {0x100000, 0x10FFFD}}
+
+local is_pua = function(number)
+  for hex in number:gmatch("([0-9a-fA-F]+)") do
+    local num = tonumber(hex, 16) 
+    if not num then print(hex) end
+    for _, range in ipairs(puas) do
+      if range[1] <= num and num <= range[2] then 
+        return true 
+      end
+    end
+  end
+  return false
+end
+
+
 local load_glyphlist = function(file, t)
 	local t = t or {}
 	if not file then return t, "No glyph list file" end
@@ -8,7 +27,9 @@ local load_glyphlist = function(file, t)
     local glyph, hex = line:match("([%a%.0-9%_]+);([%a0-9 ]+)")
     if glyph then
       hex = hex:gsub("%s*$","")
-      t[glyph] = hex
+      if not is_pua(hex) then
+        t[glyph] = hex
+      end
     end
   end
 	return t
@@ -19,7 +40,7 @@ local load_alt_glyphs = function(t)
 		if not line:match("^%s*#") then
 			line = line:gsub("#.*","")
 			local hex = line:match("0x([a-f0-9]+)")
-			if hex then 
+			if hex and not is_pua(hex) then 
 				hex = hex:upper()
 				local c = string.explode(line," ")
 				c[#c] = nil

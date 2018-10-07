@@ -20,6 +20,11 @@ local is_pua = function(number)
 end
 
 local make_entity = function(hex)
+  -- return ascii character instead of entity if possible
+  local charcode = tonumber(hex, 16) or 0
+  if 32 <= charcode and charcode <= 128 then
+    return string.char(charcode)
+  end
   return "&#x" .. hex .. ";"
 end
 

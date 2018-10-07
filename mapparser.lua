@@ -8,10 +8,14 @@ local pfbparser = require "htflibs.pfbparser"
 local maplib = require "htflibs.maplib"
 local htflib = require "htflibs.htflib"
 
-local function make_checksum(htftable)
+local function make_checksum(htftable,min,max)
   local t =  {}
-  for _, k in pairs(htftable) do
-    table.insert(t,k[3])
+  -- for _, k in pairs(htftable) do
+  for i = min,max do 
+    local k = htftable[i]
+    if k then
+      table.insert(t,k[3])
+    end
   end
   return md5.sumhexa(table.concat(t))
   -- return table.concat(t)
@@ -36,7 +40,7 @@ local pfbfiles = {}
 for encoding, fonts in pairs(t) do
   local htf,min,max, missing = htflib.make_htf(encoding)
   local htf_table = htflib.htf_table(encoding .. encoding_suff, htf, min, max)
-  checksums[encoding] = make_checksum(htf)
+  checksums[encoding] = make_checksum(htf,min, max)
   
   print(htflib.htf_container(encoding .. encoding_suff, "unicode/".. mapname .. "/", htf_table))
   for k,v in pairs(missing) do

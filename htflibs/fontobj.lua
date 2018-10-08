@@ -28,10 +28,17 @@ function fontobj:load_font(fontname, list)
   local used_fonts = {}
   for _,v in pairs(list) do
     if v.type == "mapfont" then
+      -- load all fonts used by virtual font
       local mapfont = self.map[v.name]
-      if not mapfont then 
-        return nil, "font ".. v.name .. " cannot be found in the map file"
+      if not mapfont then
+        -- probably another virtual font
+        local font_plist = pl_loader.load(v.name)
+        local list = parsepl.parse(font_plist)
+        print("load font", v.name)
+        self:load_font(v.name, list)
+        -- return nil, "font ".. v.name .. " cannot be found in the map file"
       end
+      print("font encoding", mapfont.encoding)
       self:load_enc(mapfont.encoding)
       params.style = self:load_style(mapfont.fontfile)
       v.encoding = mapfont.encoding
@@ -39,6 +46,14 @@ function fontobj:load_font(fontname, list)
       -- print(mapfont, v.name, v.identifier)
     end
   end
+  -- if the font is not virtual, use the current font encoding or 8r
+  if #used_fonts == 0 then
+    local mapfont = self.map[fontname]
+    local enc = mapfont and mapfont.encoding or "8r"
+    self:load_enc(enc)
+    used_fonts = {{encoding = enc, identifier="D 0"}}
+  end
+  print("resolve font", fontname)
   params.characters = self:resolve_characters(used_fonts, list)
   params.min, params.max = self:get_font_range(params)
   params.hash = self:get_hash(params)
@@ -98,6 +113,7 @@ end
 function fontobj:resolve_characters(used_fonts, list)
   local encodings = {}
   local chartable = {}
+  local glyph_table = {}
   local default_encoding 
   for _,v in ipairs(used_fonts) do
     local enc_pos = v.identifier
@@ -126,6 +142,17 @@ function fontobj:resolve_characters(used_fonts, list)
           -- table.insert(current_unicodes, unicode.utf8.char(tonumber(glyph_value:sub(3), 16) or 32) or glyph_value)
           table.insert(current_unicodes, unicode.utf8.char(tonumber(glyph_value:sub(4):gsub(";$", ""),16) or 32) )
         end
+      end
+      if #v.map == 0 then
+        -- probably tfm font with no mappings
+          local glyph = default_encoding[v.value]
+          -- insert unicode value for the glyph
+          local glyph_value = glyphs:getGlyph(glyph) or ""
+          table.insert(current_chars, glyph_value)
+          table.insert(current_glyphs, glyph)
+          -- table.insert(current_unicodes, unicode.utf8.char(tonumber(glyph_value:sub(3), 16) or 32) or glyph_value)
+          table.insert(current_unicodes, unicode.utf8.char(tonumber(glyph_value:sub(4):gsub(";$", ""),16) or 32) )
+
       end
       local chars = table.concat(current_chars,"")
       print(v.value, chars, table.concat(current_unicodes), table.concat(current_glyphs, " ")) 

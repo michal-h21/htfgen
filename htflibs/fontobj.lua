@@ -1,5 +1,6 @@
 local M = {}
 local lfs = require "lfs"
+local md5 = require "md5"
 local maplib = require "htflibs.maplib"
 local glyphs = require "htflibs.glyphload"
 local loadenc = require "loadenc"

@@ -35,8 +35,15 @@ local load_glyphlist = function(file, t)
     local glyph, hex = line:match("([%a%.0-9%_]+);([%a0-9 ]+)")
     if glyph then
       hex = hex:gsub("%s*$","")
-      if not is_pua(hex) then
-        t[glyph] = make_entity(hex)
+      -- glyph can point to several characters
+      local x = {}
+      for code in hex:gmatch("([a-fA-F0-9]+)") do
+        if not is_pua(hex) then
+          x[#x+1] = make_entity(hex)
+        end
+      end
+      if #x > 0 then
+        t[glyph] = table.concat(x)
       end
     end
   end

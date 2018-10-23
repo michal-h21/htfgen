@@ -61,3 +61,6 @@ nine.prop;0039
 nine.oldstyle;0039
 nineoldstyle;0039
 nine.taboldstyle;0039
+question_question;2047
+question_exclam;2048
+Q_u;0051 0075

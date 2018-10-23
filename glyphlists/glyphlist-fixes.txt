@@ -64,3 +64,4 @@ nine.taboldstyle;0039
 question_question;2047
 question_exclam;2048
 Q_u;0051 0075
+q.sc_u.sc;0071 0075

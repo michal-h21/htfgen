@@ -8,6 +8,8 @@ local parsepl = require "htflibs.parsepl"
 local pfbparser = require "htflibs.pfbparser"
 local pl_loader = require "htflibs.pl_loader"
 
+local uchar = unicode.utf8.char
+
 local load_plist = function(prg,name)
   local command = prg .." "..name
   local prg = io.popen(command, "r")
@@ -115,6 +117,17 @@ function fontobj:resolve_characters(used_fonts, list)
   local chartable = {}
   local glyph_table = {}
   local default_encoding 
+  local function expand_entities(str)
+    local expanded = str:gsub("&#x([0-9a-fA-F]+);", function(a) return uchar(tonumber(a, 16) or 32) end )
+    return expanded
+  end
+  local function update(glyph, current_chars, current_glyphs, current_unicodes)
+    local glyph_value = glyphs:getGlyph(glyph) or ""
+    table.insert(current_chars, glyph_value)
+    table.insert(current_glyphs, glyph)
+
+    table.insert(current_unicodes, expand_entities(glyph_value))
+  end
   for _,v in ipairs(used_fonts) do
     local enc_pos = v.identifier
     encodings[enc_pos] = self.encodings[v.encoding]
@@ -135,24 +148,13 @@ function fontobj:resolve_characters(used_fonts, list)
         elseif h.type == "setchar" then
           -- get the glyph from the current encoding
           local glyph = current_enc[h.value]
-          -- insert unicode value for the glyph
-          local glyph_value = glyphs:getGlyph(glyph) or ""
-          table.insert(current_chars, glyph_value)
-          table.insert(current_glyphs, glyph)
-          -- table.insert(current_unicodes, unicode.utf8.char(tonumber(glyph_value:sub(3), 16) or 32) or glyph_value)
-          table.insert(current_unicodes, unicode.utf8.char(tonumber(glyph_value:sub(4):gsub(";$", ""),16) or 32) )
+          update(glyph, current_chars, current_glyphs, current_unicodes)
         end
       end
       if #v.map == 0 then
         -- probably tfm font with no mappings
           local glyph = default_encoding[v.value]
-          -- insert unicode value for the glyph
-          local glyph_value = glyphs:getGlyph(glyph) or ""
-          table.insert(current_chars, glyph_value)
-          table.insert(current_glyphs, glyph)
-          -- table.insert(current_unicodes, unicode.utf8.char(tonumber(glyph_value:sub(3), 16) or 32) or glyph_value)
-          table.insert(current_unicodes, unicode.utf8.char(tonumber(glyph_value:sub(4):gsub(";$", ""),16) or 32) )
-
+          update(glyph, current_chars, current_glyphs, current_unicodes)
       end
       local chars = table.concat(current_chars,"")
       print(v.value, chars, table.concat(current_unicodes), table.concat(current_glyphs, " ")) 

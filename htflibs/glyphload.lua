@@ -38,8 +38,8 @@ local load_glyphlist = function(file, t)
       -- glyph can point to several characters
       local x = {}
       for code in hex:gmatch("([a-fA-F0-9]+)") do
-        if not is_pua(hex) then
-          x[#x+1] = make_entity(hex)
+        if not is_pua(code) then
+          x[#x+1] = make_entity(code)
         end
       end
       if #x > 0 then

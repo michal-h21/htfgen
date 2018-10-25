@@ -36,11 +36,11 @@ function fontobj:load_font(fontname, list)
         -- probably another virtual font
         local font_plist = pl_loader.load(v.name)
         local list = parsepl.parse(font_plist)
-        print("load font", v.name)
+        -- print("load font", v.name)
         self:load_font(v.name, list)
         -- return nil, "font ".. v.name .. " cannot be found in the map file"
       end
-      print("font encoding", mapfont.encoding)
+      -- print("font encoding", mapfont.encoding)
       self:load_enc(mapfont.encoding)
       params.style = self:load_style(mapfont.fontfile)
       v.encoding = mapfont.encoding
@@ -55,18 +55,18 @@ function fontobj:load_font(fontname, list)
     self:load_enc(enc)
     used_fonts = {{encoding = enc, identifier="D 0"}}
   end
-  print("resolve font", fontname)
+  -- print("resolve font", fontname)
   params.font_file = fontname
 
   params.characters = self:resolve_characters(used_fonts, list)
   params.min, params.max = self:get_font_range(params)
   params.hash = self:get_hash(params)
-  print("hash", params.hash)
+  -- print("hash", params.hash)
   return params
 end
 
 function fontobj:load_enc(encoding)
-  print("loading encoding: ", encoding)
+  -- print("loading encoding: ", encoding)
   if not self.encodings[encoding] then
     local rawenc = loadenc.load(encoding)
     if rawenc then
@@ -76,14 +76,14 @@ function fontobj:load_enc(encoding)
 end
 
 function fontobj:load_style(fontfile)
-  print("loading font style: ", fontfile)
+  -- print("loading font style: ", fontfile)
   if not self.fontfiles[fontfile] then
     local familyname, styles = pfbparser.parse_pfbfile(kpse.find_file(fontfile,"type1 fonts"))
     if styles then
       -- ToDo: parse the style information for CSS
       local obj = {styles = styles, familyname = familyname}
       self.fontfiles[fontfile] = obj
-      print(familyname, styles)
+      -- print(familyname, styles)
     end
   end
   return self.fontfiles[fontfile]

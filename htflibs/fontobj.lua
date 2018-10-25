@@ -96,7 +96,7 @@ function fontobj:get_font_range(params)
     min = math.min(k, min or k)
     max = math.max(k, max or k)
   end
-  print("min, max", min, max)
+  -- print("min, max", min, max)
   return min, max
 end
 
@@ -163,9 +163,9 @@ function fontobj:resolve_characters(used_fonts, list)
       end
       local chars = table.concat(current_chars,"")
       local unicodes = table.concat(current_unicodes)
-      local glyphs = table.concat(current_glyphs, " ")
-      print(v.value, chars, unicodes, glyphs) 
-      chartable[v.value] = {v.value, glyphs, chars}
+      local used_glyphs = table.concat(current_glyphs, " ")
+      -- print(v.value, chars, unicodes, used_glyphs)
+      chartable[v.value] = {v.value, used_glyphs, chars}
     end
 
   end

@@ -54,4 +54,16 @@ function M.htf_table(name, htf_table, min,max)
   return table.concat(t,"\n")
 end
 
+-- convert the font object to the htf table
+function M.fontobj_to_htf_table(fontobj)
+
+end
+
+-- convert the font object to the htf container
+function M.fontobj_to_htf_container(fontobj)
+
+end
+
+
+
 return M

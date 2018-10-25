@@ -56,6 +56,8 @@ function fontobj:load_font(fontname, list)
     used_fonts = {{encoding = enc, identifier="D 0"}}
   end
   print("resolve font", fontname)
+  params.font_file = fontname
+
   params.characters = self:resolve_characters(used_fonts, list)
   params.min, params.max = self:get_font_range(params)
   params.hash = self:get_hash(params)
@@ -105,7 +107,9 @@ function fontobj:get_hash(params)
   -- loop over font characters, we can't use ipairs as there may be holes
   -- and min can be zero
   for i = params.min, params.max do
-    t[#t+1] = characters[i]
+    -- the characters contain list of subtables
+    -- the third element in a subtable contains the HTF string
+    t[#t+1] = characters[i][3]
   end
   return md5.sumhexa(table.concat(t))
 
@@ -141,24 +145,27 @@ function fontobj:resolve_characters(used_fonts, list)
       local current_enc = default_encoding
       local current_chars = {}
       local current_unicodes = {}
-      for _,h in ipairs(v.map) do 
-        if h.type == "selectfont" then
-          -- select encoding by the name stored in the list
-          current_enc = encodings[h.value]
-        elseif h.type == "setchar" then
-          -- get the glyph from the current encoding
-          local glyph = current_enc[h.value]
-          update(glyph, current_chars, current_glyphs, current_unicodes)
+      if #v.map > 0 then
+        for _,h in ipairs(v.map) do 
+          if h.type == "selectfont" then
+            -- select encoding by the name stored in the list
+            current_enc = encodings[h.value]
+          elseif h.type == "setchar" then
+            -- get the glyph from the current encoding
+            local glyph = current_enc[h.value]
+            update(glyph, current_chars, current_glyphs, current_unicodes)
+          end
         end
-      end
-      if #v.map == 0 then
-        -- probably tfm font with no mappings
-          local glyph = default_encoding[v.value]
-          update(glyph, current_chars, current_glyphs, current_unicodes)
+      -- probably tfm font with no mappings
+      else
+        local glyph = default_encoding[v.value]
+        update(glyph, current_chars, current_glyphs, current_unicodes)
       end
       local chars = table.concat(current_chars,"")
-      print(v.value, chars, table.concat(current_unicodes), table.concat(current_glyphs, " ")) 
-      chartable[v.value] = chars
+      local unicodes = table.concat(current_unicodes)
+      local glyphs = table.concat(current_glyphs, " ")
+      print(v.value, chars, unicodes, glyphs) 
+      chartable[v.value] = {v.value, glyphs, chars}
     end
 
   end

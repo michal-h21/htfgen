@@ -1,6 +1,7 @@
 require "busted.runner" ()
 kpse.set_program_name "luatex"
 
+local htflib = require "htflibs.htflib"
 local fontobj = require "htflibs.fontobj"
 
 describe("Fontobj test", function()
@@ -33,6 +34,7 @@ describe("Fontobj test", function()
       assert.is_table(style)
       assert.is_same(style.familyname, "Linux Libertine T")
     end)
+    -- print(htflib.fontobj_to_htf_table(fontobj))
   end)
   -- fonts:load_virtual_font(kpse.expand_var("$TEXMFDIST") .. "/fonts/vf/public/newtx/ntxmia.vf", "ntxmia")
   -- fonts:load_virtual_fonts("public/libertine")

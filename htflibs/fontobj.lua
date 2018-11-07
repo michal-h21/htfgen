@@ -59,7 +59,7 @@ function fontobj:load_font(fontname, list)
   -- print("resolve font", fontname)
   params.font_file = fontname
 
-  params.characters = self:resolve_characters(used_fonts, list)
+  params.characters, params.missing_glyphs = self:resolve_characters(used_fonts, list)
   params.min, params.max = self:get_font_range(params)
   params.hash = self:get_hash(params)
   -- print("hash", params.hash)
@@ -122,13 +122,18 @@ function fontobj:resolve_characters(used_fonts, list)
   local encodings = {}
   local chartable = {}
   local glyph_table = {}
+  local missing_glyphs = {}
   local default_encoding 
   local function expand_entities(str)
     local expanded = str:gsub("&#x([0-9a-fA-F]+);", function(a) return uchar(tonumber(a, 16) or 32) end )
     return expanded
   end
   local function update(glyph, current_chars, current_glyphs, current_unicodes)
-    local glyph_value = glyphs:getGlyph(glyph) or ""
+    local glyph_value = glyphs:getGlyph(glyph) 
+    if not glyph_value then
+      table.insert(missing_glyphs, glyph)
+      glyph_value = ""
+    end
     table.insert(current_chars, glyph_value)
     table.insert(current_glyphs, glyph)
 
@@ -171,7 +176,7 @@ function fontobj:resolve_characters(used_fonts, list)
     end
 
   end
-  return chartable
+  return chartable, missing_glyphs
 end
 
 function fontobj:load_font_file(filename, basename, plcommand)

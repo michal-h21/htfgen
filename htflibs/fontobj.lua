@@ -109,7 +109,8 @@ function fontobj:get_hash(params)
   for i = params.min, params.max do
     -- the characters contain list of subtables
     -- the third element in a subtable contains the HTF string
-    t[#t+1] = characters[i][3]
+    local current_char = characters[i] or {}
+    t[#t+1] = current_char[3]
   end
   return md5.sumhexa(table.concat(t))
 
@@ -172,13 +173,21 @@ function fontobj:resolve_characters(used_fonts, list)
   return chartable
 end
 
-function fontobj:load_virtual_font(filename)
-  local basename = filename:match("([^%/]+)%.vf$")
-  local pl = load_plist("vftovp", filename)
+function fontobj:load_font_file(filename, basename, plcommand)
+  local pl = load_plist(plcommand, filename)
   local list = parsepl.parse(pl)
   local params, msg = self:load_font(basename, list)
   if not params then self:err(msg) end
   return params
+end
+function fontobj:load_virtual_font(filename)
+  local basename = filename:match("([^%/]+)%.vf$")
+  return self:load_font_file(filename, basename, "vftovp")
+end
+
+function fontobj:load_tfm_font(filename)
+  local basename = filename:match("([^%/]+)%.tfm$")
+  return self:load_font_file(filename, basename, "tftopl")
 end
 
 -- the dir should be relative to the fontobj.vfdir

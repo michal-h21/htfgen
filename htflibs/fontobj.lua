@@ -42,7 +42,7 @@ function fontobj:load_font(fontname, list)
       end
       -- print("font encoding", mapfont.encoding)
       self:load_enc(mapfont.encoding)
-      params.style = self:load_style(mapfont.fontfile)
+      params.style = params.style or self:load_style(mapfont.fontfile)
       v.encoding = mapfont.encoding
       table.insert(used_fonts, v)
       -- print(mapfont, v.name, v.identifier)
@@ -53,6 +53,7 @@ function fontobj:load_font(fontname, list)
     local mapfont = self.map[fontname]
     local enc = mapfont and mapfont.encoding or "8r"
     self:load_enc(enc)
+    params.style = self:load_style(mapfont.fontfile)
     used_fonts = {{encoding = enc, identifier="D 0"}}
   end
   -- print("resolve font", fontname)

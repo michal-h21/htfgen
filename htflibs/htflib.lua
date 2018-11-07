@@ -59,6 +59,33 @@ function M.fontobj_to_htf_table(fontobj)
   return M.htf_table(fontobj.font_file, fontobj.characters, fontobj.min, fontobj.max)
 end
 
+function M.make_css(fontname, propertystring, familyname)
+  local t = {}
+  local propertystring = propertystring or ""
+  propertystring= propertystring:lower()
+  local fontname = fontname:lower()
+  local bold = propertystring:match("bold") and "font-weight: bold;"
+  local slanted = propertystring:match("slanted") and "font-style: oblique;"
+  local italic = propertystring:match("italic") and "font-style: italic;"
+  local smallcaps = (fontname:match("sc") or fontname:match("smallcaps")) and "font-variant: small-caps;"
+  local sans = fontname:match("sans") and "sans-serif"
+  local mono = fontname:match("mono") and "monospace"
+  local basefamily = sans or mono or "serif";
+  local family = string.format("font-family: '%s', %s;", familyname, basefamily)
+  table.insert(t,bold)
+  table.insert(t,slanted)
+  table.insert(t,italic)
+  table.insert(t,smallcaps)
+  table.insert(t, family)
+  return table.concat(t, " ")
+end
+
+function M.fontobj_get_css(fontobj)
+  local fontname = fontobj.font_file
+  local style = fontobj.style or {}
+  return "htfcss:  " .. fontname .. "  " .. M.make_css(fontname, style.styles,  style.familyname) 
+end
+
 -- convert the font object to the htf container
 function M.fontobj_to_htf_container(fontobj)
 

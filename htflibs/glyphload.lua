@@ -1,5 +1,6 @@
 -- local basedir = arg[0]:match("(.+)/[^%/]+") or "."
-local basedir = arg[0]:match("(.+%/htfgen%/)") or "."
+-- local basedir = arg[0]:match("(.+%/htfgen%/)") or "."
+local basedir = kpse.find_file("glyphload.lua"):gsub("htflibs%/glyphload%.lua","")
 basedir = basedir .. "/glyphlists/"
 
 -- the glyph lists contain glyphs that point to Unicode Private Use Areas, we need to skip such glyphs

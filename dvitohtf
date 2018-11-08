@@ -3,15 +3,17 @@ kpse.set_program_name("luatex")
 local lfs = require "lfs"
 local htflib = require "htflibs.htflib"
 local fontobj = require "htflibs.fontobj"
+local template = require "litfonts-template"
 
 -- load a map file. pdftex.map should contain all possible fonts
 local fonts = fontobj("pdftex")
 
 
 local function write_file(htfname, contents)
-  local f = io.open(htfname, "w")
-  f:write(contents)
-  f:close()
+  -- local f = io.open(htfname, "w")
+  -- f:write(contents)
+  -- f:close()
+  print(contents)
 end
 
 local function find_missing_fonts(tex4ht_output)
@@ -46,6 +48,8 @@ end
 -- the subsequent occurences can just link to the first one
 local used_hashes = {}
 
+print(template.head)
+
 for _, fontfile in ipairs(missing_fonts) do
   local fontobject 
   -- the virtual fonts have priority over tfm fonts
@@ -62,19 +66,27 @@ for _, fontfile in ipairs(missing_fonts) do
     local htfname = fontfile .. ".htf"
     local hash = fontobject.hash
     local content
+    local familyname = fontobject.style.familyname or fontfile
+    local htf_dir = familyname:gsub("%s", "_") .. "/"
+    local htf_path = "unicode/" .. htf_dir 
     -- the font with same structured has been used already
     if used_hashes[hash] then
       -- link to the previously used font table
       content = "." .. used_hashes[hash] .. "\n"
+      htf_path = "alias/" .. htf_dir
     else
       content = htflib.fontobj_to_htf_table(fontobject).."\n"
       used_hashes[hash] = fontfile
     end
-    print("writing " .. htfname .. " hash: " .. fontobject.hash)
-    write_file(htfname,  content .. htflib.fontobj_get_css(fontobject) .."\n")
+    print("% writing " .. htfname .. " hash: " .. fontobject.hash)
+    print(htflib.htf_container(fontfile, htf_path, content))
+
+    -- write_file(htfname,  content .. htflib.fontobj_get_css(fontobject) .."\n")
     for _, missing in ipairs(fontobject.missing_glyphs) do
       print("Missing glyph", missing)
     end
   end
 
 end
+
+print(template.foot)

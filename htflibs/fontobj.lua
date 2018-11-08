@@ -131,7 +131,9 @@ function fontobj:resolve_characters(used_fonts, list)
   local function update(glyph, current_chars, current_glyphs, current_unicodes)
     local glyph_value = glyphs:getGlyph(glyph) 
     if not glyph_value then
-      table.insert(missing_glyphs, glyph)
+      if glyph ~=".notdef" then
+        table.insert(missing_glyphs, glyph)
+      end
       glyph_value = ""
     end
     table.insert(current_chars, glyph_value)

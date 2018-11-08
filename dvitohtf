@@ -30,8 +30,18 @@ local function run_tex4ht(dvifile)
   command:close()
   return find_missing_fonts(result)
 end
+local missing_fonts = {}
+if arg[1] then
+  missing_fonts = run_tex4ht(arg[1])
+else
+  -- read list of fonts from the standard input
+  for line in io.lines() do
+    local font = line:gsub("^%s*",""):gsub("%s*$","")
+    table.insert(missing_fonts, font)
+  end
+end
 
-local missing_fonts = run_tex4ht(arg[1])
+
 
 for _, fontfile in ipairs(missing_fonts) do
   local fontobject 
@@ -47,7 +57,7 @@ for _, fontfile in ipairs(missing_fonts) do
   end
   if fontobject then
     local htfname = fontfile .. ".htf"
-    print("writing " .. htfname)
+    print("writing " .. htfname .. " hash: " .. fontobject.hash)
     write_file(htfname, htflib.fontobj_to_htf_table(fontobject).."\n" .. htflib.fontobj_get_css(fontobject) .."\n")
     for _, missing in ipairs(fontobject.missing_glyphs) do
       print("Missing glyph", missing)

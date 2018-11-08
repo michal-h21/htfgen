@@ -42,6 +42,9 @@ else
 end
 
 
+-- the font tables with equal hashes don't need to be written again,
+-- the subsequent occurences can just link to the first one
+local used_hashes = {}
 
 for _, fontfile in ipairs(missing_fonts) do
   local fontobject 
@@ -57,8 +60,18 @@ for _, fontfile in ipairs(missing_fonts) do
   end
   if fontobject then
     local htfname = fontfile .. ".htf"
+    local hash = fontobject.hash
+    local content
+    -- the font with same structured has been used already
+    if used_hashes[hash] then
+      -- link to the previously used font table
+      content = "." .. used_hashes[hash] .. "\n"
+    else
+      content = htflib.fontobj_to_htf_table(fontobject).."\n"
+      used_hashes[hash] = fontfile
+    end
     print("writing " .. htfname .. " hash: " .. fontobject.hash)
-    write_file(htfname, htflib.fontobj_to_htf_table(fontobject).."\n" .. htflib.fontobj_get_css(fontobject) .."\n")
+    write_file(htfname,  content .. htflib.fontobj_get_css(fontobject) .."\n")
     for _, missing in ipairs(fontobject.missing_glyphs) do
       print("Missing glyph", missing)
     end

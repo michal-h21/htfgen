@@ -79,12 +79,17 @@ end
 function fontobj:load_style(fontfile)
   -- print("loading font style: ", fontfile)
   if not self.fontfiles[fontfile] then
-    local familyname, styles = pfbparser.parse_pfbfile(kpse.find_file(fontfile,"type1 fonts"))
-    if styles then
-      -- ToDo: parse the style information for CSS
-      local obj = {styles = styles, familyname = familyname}
-      self.fontfiles[fontfile] = obj
-      -- print(familyname, styles)
+    local pfbfile = kpse.find_file(fontfile, "type1 fonts")
+    if pfbfile then
+      local familyname, styles = pfbparser.parse_pfbfile(pfbfile)
+      if styles then
+        -- ToDo: parse the style information for CSS
+        local obj = {styles = styles, familyname = familyname}
+        self.fontfiles[fontfile] = obj
+        -- print(familyname, styles)
+      end
+    else
+      self.fontfiles[fontfile] = {}
     end
   end
   return self.fontfiles[fontfile]

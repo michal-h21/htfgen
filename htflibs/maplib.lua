@@ -3,7 +3,7 @@ local M = {}
 local function parse_line(line)
   local line = line or ""
   local clean = line:gsub('%b""',"")
-  local fontname, properties, encfile, pfbfile = clean:match("([^%s]+)[%s]+([^%s]+)[%s]+<%[?(.+).enc[%s]+<(.+)")
+  local fontname, properties, encfile, pfbfile = clean:match("([^%s]+)[%s]+([^%s]+)[%s]+<%[?(.+).enc[%s]+<%s*([^%s]+)")
   return fontname, properties, encfile, pfbfile
 end
 function M.parse_map(filename) 

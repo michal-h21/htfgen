@@ -39,18 +39,20 @@ function fontobj:load_font(fontname, list)
         -- print("load font", v.name)
         self:load_font(v.name, list)
         -- return nil, "font ".. v.name .. " cannot be found in the map file"
+      else
+        -- print("font encoding", mapfont.encoding)
+        self:load_enc(mapfont.encoding)
+        params.style = params.style or self:load_style(mapfont.fontfile)
+        v.encoding = mapfont.encoding
+        table.insert(used_fonts, v)
+        -- print(mapfont, v.name, v.identifier)
       end
-      -- print("font encoding", mapfont.encoding)
-      self:load_enc(mapfont.encoding)
-      params.style = params.style or self:load_style(mapfont.fontfile)
-      v.encoding = mapfont.encoding
-      table.insert(used_fonts, v)
-      -- print(mapfont, v.name, v.identifier)
     end
   end
   -- if the font is not virtual, use the current font encoding or 8r
   if #used_fonts == 0 then
     local mapfont = self.map[fontname]
+    if not mapfont then return nil, "Cannot load font "..fontname end
     local enc = mapfont and mapfont.encoding or "8r"
     self:load_enc(enc)
     params.style = self:load_style(mapfont.fontfile)

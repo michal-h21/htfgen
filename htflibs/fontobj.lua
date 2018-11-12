@@ -18,6 +18,15 @@ local load_plist = function(prg,name)
   return result
 end
 
+-- font encoding for fonts without map records without encoding
+local function null_encoding()
+  local t = {}
+  for i=0,255 do
+    t[i] = ".notdef"
+  end
+  return t
+end
+
 local fontobj = {}
 fontobj.__index = fontobj
 
@@ -165,7 +174,7 @@ function fontobj:resolve_characters(used_fonts, list)
         for _,h in ipairs(v.map) do 
           if h.type == "selectfont" then
             -- select encoding by the name stored in the list
-            current_enc = encodings[h.value]
+            current_enc = encodings[h.value] or null_encoding()
           elseif h.type == "setchar" then
             -- get the glyph from the current encoding
             local glyph = current_enc[h.value]

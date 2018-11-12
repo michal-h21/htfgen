@@ -15,11 +15,13 @@ This is a set of tools to simplify creation of `htf` fonts for `tex4ht`.
     chmod +x tfmtochars
     chmod +x htfgen
     chmod +x dvitohtf
+    chmod +x scanfdfile
     chmod +x make-t1-htf 
     ln -s /full/path/to/thisdir/lstexenc /usr/local/bin/lstexenc
     ln -s /full/path/to/thisdir/tfmtochars /usr/local/bin/tfmtochars
     ln -s /full/path/to/thisdir/htfgen /usr/local/bin/htfgen
     ln -s /full/path/to/thisdir/dvitohtf /usr/local/bin/dvitohtf
+    ln -s /full/path/to/thisdir/scanfdfile /usr/local/bin/scanfdfile
     ln -s /full/path/to/thisdir/make-t1-htf /usr/local/bin/make-t1-htf
 
 ## Simple usage

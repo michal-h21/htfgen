@@ -1,10 +1,23 @@
+#!/usr/bin/env texlua
 local used = {}
+
+local function strip_comments(str)
+  if str then
+    str = str:gsub("%%.*", "")
+    return str:gsub("%}.*", "")
+  end
+end
+
 for line in io.lines() do
   -- local fontname = line:match("%s*%<[^%]+%>%s+[^%s]+%s+([^%s]+)")
-  local fontname = line:match("%s*%<[^%]]+%>%s+[^%s]+%s+([^%s]+)")
+  local fn, fontname = line:match("%s*%<[^%]]+%>%s*([^%s]+)%s*([^%s]*)")
+  fn, fontname = strip_comments(fn), strip_comments(fontname)
   -- don't print font substitutions
-  if fontname and not fontname:match("[%*%/]") and not used[fontname] then
+  if fontname and fontname ~= "" and not fontname:match("[%*%/]") and not used[fontname] then
     print(fontname)
     used[fontname] = true
+  elseif fontname == "" and fn ~= "" then
+    -- sometimes the <-> line contains no size or function, but just filename. it will be in fn variable then
+    print(fn)
   end
 end

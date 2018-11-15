@@ -46,10 +46,12 @@ function fontobj:load_font(fontname, list)
         local font_plist = pl_loader.load(v.name)
         local list = parsepl.parse(font_plist)
         -- print("load font", v.name)
+        -- TODO: get encoding for that file
         self:load_font(v.name, list)
         -- return nil, "font ".. v.name .. " cannot be found in the map file"
       else
         -- print("font encoding", mapfont.encoding)
+        -- TODO: parse encoding from the PFB file
         self:load_enc(mapfont.encoding)
         params.style = params.style or self:load_style(mapfont.fontfile)
         v.encoding = mapfont.encoding
@@ -62,7 +64,7 @@ function fontobj:load_font(fontname, list)
   if #used_fonts == 0 then
     local mapfont = self.map[fontname]
     if not mapfont then return nil, "Cannot load font "..fontname end
-    local enc = mapfont and mapfont.encoding or "8r"
+    local enc = mapfont and mapfont.encoding or "8r" -- TODO: parse encoding from the pfb file
     self:load_enc(enc)
     params.style = self:load_style(mapfont.fontfile)
     used_fonts = {{encoding = enc, identifier="D 0"}}

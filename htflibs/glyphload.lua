@@ -21,11 +21,14 @@ local is_pua = function(number)
   return false
 end
 
+-- escape invalid xml characters: & < >
+local xml_escapes = {[38] = "&amp;", [60] = "&lt;", [62] = "&gt;"}
+
 local make_entity = function(hex)
   -- return ascii character instead of entity if possible
   local charcode = tonumber(hex, 16) or 0
   if 32 <= charcode and charcode <= 128 then
-    return string.char(charcode)
+    return xml_escapes[ charcode ] or  string.char(charcode)
   end
   return "&#x" .. hex .. ";"
 end

@@ -81,3 +81,4 @@ f_f_k;0066 0066 007B
 f_f_t;0066 0066 0074
 exclam_question;203D
 t_t;0074 0074
+modifiermacron;02C9

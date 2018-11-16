@@ -52,7 +52,12 @@ function fontobj:load_font(fontname, list)
       else
         -- print("font encoding", mapfont.encoding)
         -- TODO: parse encoding from the PFB file
-        self:load_enc(mapfont.encoding)
+        if mapfont.encoding then
+          self:load_enc(mapfont.encoding)
+        else
+          -- use encoding from the pfb file
+          mapfont.encoding = self:load_pfb_enc(mapfont.fontfile)
+        end
         params.style = params.style or self:load_style(mapfont.fontfile)
         v.encoding = mapfont.encoding
         table.insert(used_fonts, v)
@@ -64,8 +69,12 @@ function fontobj:load_font(fontname, list)
   if #used_fonts == 0 then
     local mapfont = self.map[fontname]
     if not mapfont then return nil, "Cannot load font "..fontname end
-    local enc = mapfont and mapfont.encoding or "8r" -- TODO: parse encoding from the pfb file
-    self:load_enc(enc)
+    local enc = mapfont and mapfont.encoding 
+    if not enc then
+      enc = self:load_pfb_enc(mapfont.fontfile)
+    else
+      self:load_enc(enc)
+    end
     params.style = self:load_style(mapfont.fontfile)
     used_fonts = {{encoding = enc, identifier="D 0"}}
   end
@@ -87,6 +96,21 @@ function fontobj:load_enc(encoding)
       self.encodings[encoding] = loadenc.parse(rawenc)
     end
   end
+end
+
+function fontobj:load_pfb_enc(fontfile)
+  if not fontfile then
+    -- use the 8r encoding if pfb loading fails
+    local enc = "8r"
+    self:load_enc(enc)
+    return enc
+  end
+  local pfbfile = kpse.find_file(fontfile, "type1 fonts")
+  -- we must fake encoding name. we will name it after the pfb font
+  if not self.encodings[fontfile] then
+    self.encodings[fontfile] = pfbparser.get_encoding(pfbfile)
+  end
+  return fontfile
 end
 
 function fontobj:load_style(fontfile)

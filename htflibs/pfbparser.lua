@@ -25,7 +25,7 @@ local function parse_encoding(encodingstring)
   for position, glyph in encodingstring:gmatch("dup ([0-9]+) %/(.-) put") do
     t[tonumber(position)] = glyph
   end
-
+  return t
 end
 
 function M.get_encoding(filename)

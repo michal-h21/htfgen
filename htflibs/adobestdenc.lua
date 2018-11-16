@@ -254,5 +254,7 @@ local stdenc = {
 [252] = '.notdef',
 [253] = '.notdef',
 [254] = '.notdef',
-[255] = '.notdef',
+[255] = '.notdef'
 }
+
+return stdenc

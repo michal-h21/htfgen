@@ -1,6 +1,8 @@
 local M = {}
 
 local pfbfiles = {}
+local encodings = {}
+
 local stdenc = require "htflibs.adobestdenc"
 
 local function load_pfb_file(filename)
@@ -27,12 +29,19 @@ local function parse_encoding(encodingstring)
 end
 
 function M.get_encoding(filename)
+  --return cached encoding
+  if encodings[filename] then return encodings[filename] end
+  local encoding
   local content = load_pfb_file(filename)
   local encodingstring = content:match("/Encoding (.-) def")
+  -- detect standard Adobe encoding
   if encodingstring == "StandardEncoding" then
-    return stdenc
+    encoding =  stdenc
+  else
+    encoding = parse_encoding(encodingstring)
   end
-  return parse_encoding(encodingstring)
+  encodings[filename] = encoding
+  return encoding
 end
 
 function M.parse_pfb(content)

@@ -45,13 +45,24 @@ function fontobj:load_font(fontname, list)
         -- probably another virtual font
         local font_plist = pl_loader.load(v.name)
         local list = parsepl.parse(font_plist)
-        -- print("load font", v.name)
+        print("load font", v.name)
         -- TODO: get encoding for that file
-        self:load_font(v.name, list)
+        local subfnt,msg = self:load_font(v.name, list)
+        -- make encoding by resolving the font
+        if subfnt then
+          local encoding = self:characters_to_encoding(subfnt.characters) 
+          if encoding then
+            v.encoding = v.name
+            self.map[v.name] = {encoding = v.name}
+            self.encodings[v.name] = encoding
+            table.insert(used_fonts, v)
+          end
+        else
+          print(msg)
+        end
         -- return nil, "font ".. v.name .. " cannot be found in the map file"
       else
         -- print("font encoding", mapfont.encoding)
-        -- TODO: parse encoding from the PFB file
         if mapfont.encoding then
           self:load_enc(mapfont.encoding)
         else
@@ -60,8 +71,8 @@ function fontobj:load_font(fontname, list)
         end
         params.style = params.style or self:load_style(mapfont.fontfile)
         v.encoding = mapfont.encoding
-        table.insert(used_fonts, v)
         -- print(mapfont, v.name, v.identifier)
+        table.insert(used_fonts, v)
       end
     end
   end
@@ -98,6 +109,15 @@ function fontobj:load_enc(encoding)
   end
 end
 
+function fontobj:characters_to_encoding(characters) 
+  local t = {}
+  for k,v in pairs(characters) do
+    -- glyphs are at the second position in the characters table
+    t[k] = v[2]
+  end
+  return t
+end
+
 function fontobj:load_pfb_enc(fontfile)
   if not fontfile then
     -- use the 8r encoding if pfb loading fails
@@ -115,6 +135,7 @@ end
 
 function fontobj:load_style(fontfile)
   -- print("loading font style: ", fontfile)
+  if not fontfile then return "" end
   if not self.fontfiles[fontfile] then
     local pfbfile = kpse.find_file(fontfile, "type1 fonts")
     if pfbfile then

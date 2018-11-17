@@ -22,7 +22,7 @@ local function parse_encoding(encodingstring)
   for i=0,255 do
     t[i] = ".notdef"
   end
-  for position, glyph in encodingstring:gmatch("dup ([0-9]+) %/(.-) put") do
+  for position, glyph in encodingstring:gmatch("dup ([0-9]+)%s*%/(.-) put") do
     t[tonumber(position)] = glyph
   end
   return t

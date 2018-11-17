@@ -22,7 +22,7 @@ local is_pua = function(number)
 end
 
 -- escape invalid xml characters: & < >
-local xml_escapes = {[38] = "&amp;", [60] = "&lt;", [62] = "&gt;"}
+local xml_escapes = {[38] = "&amp;", [60] = "&lt;", [62] = "&gt;", [96] = "&#x60;"}
 
 local make_entity = function(hex)
   -- return ascii character instead of entity if possible

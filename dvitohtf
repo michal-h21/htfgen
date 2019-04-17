@@ -1,12 +1,20 @@
 #!/usr/bin/env texlua
 kpse.set_program_name("luatex")
 local lfs = require "lfs"
+local lapp = require "lapp-mk4"
 local htflib = require "htflibs.htflib"
 local fontobj = require "htflibs.fontobj"
 local template = require "litfonts-template"
 
 -- load a map file. pdftex.map should contain all possible fonts
 local fonts = fontobj("pdftex")
+
+local args = lapp [[
+dvitohtf - prepare TeX literate source for HTF fonts
+  -f,--family (default nil) Font family name
+  <input> (default nil) DVI file to process. If empty, it expects FD files on the standard input
+]]
+
 
 
 local function write_file(htfname, contents)
@@ -35,8 +43,8 @@ local function run_tex4ht(dvifile)
   return find_missing_fonts(result)
 end
 local missing_fonts = {}
-if arg[1] then
-  missing_fonts = run_tex4ht(arg[1])
+if args.input~="nil" then
+  missing_fonts = run_tex4ht(args.input)
 else
   -- read list of fonts from the standard input
   for line in io.lines() do
@@ -68,7 +76,7 @@ for _, fontfile in ipairs(missing_fonts) do
     local htfname = fontfile .. ".htf"
     local hash = fontobject.hash
     local content
-    local familyname = fontobject.style.familyname or fontfile
+    local familyname = args.family or fontobject.style.familyname or fontfile
     local htf_dir = familyname:gsub("%s", "_") .. "/"
     local htf_path = "unicode/" .. htf_dir 
     -- the font with same structured has been used already

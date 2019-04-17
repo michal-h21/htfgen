@@ -82,7 +82,20 @@ f_f_t;0066 0066 0074
 exclam_question;203D
 t_t;0074 0074
 T_h;0054 0068
+a_s;0061 0071
+c_h;0063 0068
+c_k;0063 007B;
+c_t;0063 0074
+e_s;0065 0071
+i_s;0069 0071
+s_k;0071 007B
+s_p;0071 0070
+s_s;0071 0071
+u_s;0075 0071
 modifiermacron;02C9
+pilcrow;00B6
+leaf;1F659
+bigcircle;25EF
 bbA;1D538
 bbB;1D539
 bbC;02102

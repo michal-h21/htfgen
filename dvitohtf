@@ -42,6 +42,9 @@ local function run_tex4ht(dvifile)
   command:close()
   return find_missing_fonts(result)
 end
+
+-- really make family nil
+if args.family == "nil" then args.family = nil end
 local missing_fonts = {}
 if args.input~="nil" then
   missing_fonts = run_tex4ht(args.input)

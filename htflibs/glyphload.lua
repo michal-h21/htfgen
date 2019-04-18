@@ -33,24 +33,29 @@ local make_entity = function(hex)
   return "&#x" .. hex .. ";"
 end
 
+local function update_glyph_list(t, glyph, hex)
+  if glyph then
+    hex = hex:gsub("%s*$","")
+    -- glyph can point to several characters
+    local x = {}
+    for code in hex:gmatch("([a-fA-F0-9]+)") do
+      if not is_pua(code) then
+        x[#x+1] = make_entity(code)
+      end
+    end
+    if #x > 0 then
+      t[glyph] = table.concat(x)
+    end
+  end
+  -- return t
+end
+
 local load_glyphlist = function(file, t)
 	local t = t or {}
 	if not file then return t, "No glyph list file" end
   for line in io.lines(file) do
     local glyph, hex = line:match("([%a%.0-9%_]+);([%a0-9 ]+)")
-    if glyph then
-      hex = hex:gsub("%s*$","")
-      -- glyph can point to several characters
-      local x = {}
-      for code in hex:gmatch("([a-fA-F0-9]+)") do
-        if not is_pua(code) then
-          x[#x+1] = make_entity(code)
-        end
-      end
-      if #x > 0 then
-        t[glyph] = table.concat(x)
-      end
-    end
+    update_glyph_list(t, glyph, hex)
   end
 	return t
 end
@@ -71,6 +76,15 @@ local load_alt_glyphs = function(t)
 		end
 	end
 	return t
+end
+
+local function load_glyph_to_unicode(filename, t)
+  local t = t or {}
+  for line in io.lines(filename) do
+    local glyph, chars = line:match("pdfglyphtounicode{(.-)}{(.-)}")
+    update_glyph_list(t, glyph, chars)
+  end
+  return t
 end
 
 local parse_glyphlist = function()

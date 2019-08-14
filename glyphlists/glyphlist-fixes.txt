@@ -123,4 +123,23 @@ bbX;1D54F
 bbY;1D550
 bbZ;02124
 bbk;1D55C
+angleright;27E9
+integral;222B
+integraltp;2320
+integralex;23AA
+integralbt;2321
+parenrighttp;239E
+parenrightex;239F
+parenrightbt;23A0
+bracketrighttp;23A4
+bracketrightex;23A5
+bracketrightbt;23A6
+bracerighttp;23AB
+bracerightmid;23AC
+bracerightbt;23AD
+radicalex;203E
+arrowhorizex;F8E7
+parenlefttp;239B
+parenleftex;239C
+parenleftbt;239D
 

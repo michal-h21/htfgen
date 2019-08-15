@@ -138,8 +138,15 @@ bracerighttp;23AB
 bracerightmid;23AC
 bracerightbt;23AD
 radicalex;203E
-arrowhorizex;F8E7
+arrowhorizex;2D
+arrowdblbt;21D3
+arrowvertexdbl;2551
 parenlefttp;239B
 parenleftex;239C
 parenleftbt;239D
+bracketleftbt;230A
+braceleftbt;23A9
+bracelefttp;a3A7
+bracketleftex;23A2
+bracketlefttp;2308
 

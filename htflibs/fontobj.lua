@@ -8,6 +8,7 @@ local parsepl = require "htflibs.parsepl"
 local pfbparser = require "htflibs.pfbparser"
 local pl_loader = require "htflibs.pl_loader"
 
+
 local uchar = unicode.utf8.char
 
 local load_plist = function(prg,name)
@@ -180,6 +181,11 @@ function fontobj:get_hash(params)
 
 end
 
+-- mapping from wrong accent glyph names 
+local accent_replaces =  {
+  quoteright = "caron"
+}
+
 -- translate font list to the unicode character table
 function fontobj:resolve_characters(used_fonts, list)
   local encodings = {}
@@ -203,6 +209,27 @@ function fontobj:resolve_characters(used_fonts, list)
     table.insert(current_glyphs, glyph)
 
     table.insert(current_unicodes, expand_entities(glyph_value))
+  end
+  local function combine(glyphtbl)
+    local combine_glyph = function(first, second)
+      return glyphs:getGlyph(second .. first) or glyphs:getGlyph(first .. second) 
+    end
+    local function try_fixed_accent(name)
+      return accent_replaces[name] or name
+    end
+    -- try to normalize chars composed from accent and base char
+    if #glyphtbl == 2 then 
+      local first_glyph, second_glyph = expand_entities(glyphtbl[1] or ""), expand_entities(glyphtbl[2] or "")
+      local combined = combine_glyph(first_glyph, second_glyph) 
+      if not combined then
+        -- sometimes wrong names for accents are used, for example "quoteright" in place of caron
+        local updated_first = try_fixed_accent(first_glyph)
+        local updated_second = try_fixed_accent(second_glyph)
+        combined = combine_glyph(updated_first, updated_second)
+      end
+      return combined
+    end
+    return nil
   end
   for _,v in ipairs(used_fonts) do
     local enc_pos = v.identifier
@@ -233,7 +260,11 @@ function fontobj:resolve_characters(used_fonts, list)
         local glyph = default_encoding[v.value]
         update(glyph, current_chars, current_glyphs, current_unicodes)
       end
-      local chars = table.concat(current_chars,"")
+      -- try to combine accented letters composed from two characters
+      local chars = combine(current_glyphs)
+      if not chars then
+        chars = table.concat(current_chars,"")
+      end
       local unicodes = table.concat(current_unicodes)
       local used_glyphs = table.concat(current_glyphs, " ")
       -- print(v.value, chars, unicodes, used_glyphs)

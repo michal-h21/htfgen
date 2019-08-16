@@ -67,6 +67,7 @@ function M.make_css(fontname, propertystring, familyname)
   local bold = propertystring:match("bold") and "font-weight: bold;"
   local slanted = propertystring:match("slanted") and "font-style: oblique;"
   local italic = propertystring:match("italic") and "font-style: italic;"
+  local oblique = propertystring:match("oblique") and "font-style: oblique;"
   local smallcaps = (fontname:match("sc") or fontname:match("smallcaps")) and "font-variant: small-caps;"
   local sans = fontname:match("sans") and "sans-serif"
   local mono = fontname:match("mono") and "monospace"
@@ -76,6 +77,7 @@ function M.make_css(fontname, propertystring, familyname)
   table.insert(t,slanted)
   table.insert(t,italic)
   table.insert(t,smallcaps)
+  table.insert(t, oblique)
   table.insert(t, family)
   return table.concat(t, " ")
 end

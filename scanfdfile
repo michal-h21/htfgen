@@ -18,6 +18,9 @@ for line in io.lines() do
     used[fontname] = true
   elseif fontname == "" and fn ~= "" then
     -- sometimes the <-> line contains no size or function, but just filename. it will be in fn variable then
-    print(fn)
+    if not used[fn] then
+      print(fn)
+    end
+    used[fn] = true
   end
 end

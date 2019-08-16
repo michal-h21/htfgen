@@ -46,7 +46,19 @@ end
 
 
 local fonts = {}
-local font_packages = {"avant", "bookman", "chancery", "newcent"} 
+local font_packages = {} 
+
+for _, pkg in ipairs(arg) do
+  table.insert(font_packages, pkg)
+end
+
+if #font_packages < 1 then
+  print "listfonts.lua"
+  print "Search LaTeX font packages for used font families"
+  print "Usage:"
+  print "texlua listfonts.lua times avant bookman | xargs cat  | scanfdfile | sort -u | dvitohtf"
+  os.exit()
+end
 
 for _, pkg_name in ipairs(font_packages) do
   fonts = process_package(pkg_name, fonts)

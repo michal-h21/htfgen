@@ -71,6 +71,22 @@ use standard glyph names, contains `.enc` files, etc. For complex virtual fonts,
 especially math, it fails. `HTF` files for such fonts still needs to be created
 by hand.
 
+## Find font families in LaTeX packages
+
+Use the `listfonts.lua` script to find `.fd` files required by a LaTeX package like `times` or `bookman`
+
+    texlua listfonts.lua times avant bookman | xargs cat  | scanfdfile | dvitohtf
+
+## Update the `tex4ht` literate sources
+
+It is possible to update the literate source file using the
+`update_literate_sources.lua` script. It takes list of `.htf` file as an
+argument and reads the source from standard input.
+
+     texlua update_literate_sources.lua `ls *.htf`  < tex4ht-fonts-noncjk.tex  > tex4ht-fonts-noncjk-updated.tex
+
+It is useful for updating already existing fonts in the sources.
+
 # Obsolete information
 
 ## Simple usage

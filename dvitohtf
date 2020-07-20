@@ -5,6 +5,8 @@ local lapp = require "lapp-mk4"
 local htflib = require "htflibs.htflib"
 local fontobj = require "htflibs.fontobj"
 local template = require "litfonts-template"
+local json = require "htflibs.json"
+local glyphs = require "htflibs.glyphload"
 
 -- load a map file. pdftex.map should contain all possible fonts
 local fonts = fontobj("pdftex")
@@ -12,6 +14,7 @@ local fonts = fontobj("pdftex")
 local args = lapp [[
 dvitohtf - prepare TeX literate source for HTF fonts
   -f,--family (default nil) Font family name
+  -j,--jsonmap (default nil) JSON mapping between glyph names and unicodes
   <input> (default nil) DVI file to process. If empty, it expects FD files on the standard input
 ]]
 
@@ -41,6 +44,38 @@ local function run_tex4ht(dvifile)
   local result = command:read("*all")
   command:close()
   return find_missing_fonts(result)
+end
+
+local function remap(fontobject, map)
+  -- map wrong glyph names from the pfb file to correct names in the JSON map
+  -- json file must be in the form of: {"fontname": { "chars" : {...}}}
+  local re_map = map[fontobject.font_file] 
+  if re_map then
+    local characters = fontobject.characters or {}
+    local charmap = re_map.chars
+    for k,v in pairs(characters) do
+      local newglyph = charmap[v[2]] 
+      if newglyph then
+        newglyph = newglyph:gsub("U%+", "uni") -- make glyph name compatible with 
+        v[2] = newglyph
+        v[3] = glyphs:getGlyph(newglyph) or newglyph -- json contains either glyh names, unicodes or characters
+      end
+    end
+  end
+  return fontobject
+end
+
+local function load_jsonmap(filename)
+  local f = io.open(filename, "r")
+  local content = f:read("*all")
+  f:close()
+  return json.decode(content)
+end
+
+local jsonmap
+-- load json remap
+if args.jsonmap ~="nil" then
+  jsonmap = load_jsonmap(args.jsonmap)
 end
 
 -- really make family nil
@@ -82,6 +117,9 @@ for _, fontfile in ipairs(missing_fonts) do
     local familyname = args.family or fontobject.style.familyname or fontfile
     local htf_dir = familyname:gsub("%s", "_") .. "/"
     local htf_path = "unicode/" .. htf_dir 
+    if jsonmap then
+      fontobject = remap(fontobject, jsonmap)
+    end
     -- the font with same structured has been used already
     if used_hashes[hash] then
       -- link to the previously used font table

@@ -149,4 +149,24 @@ braceleftbt;23A9
 bracelefttp;a3A7
 bracketleftex;23A2
 bracketlefttp;2308
+nPerp;2AEB 2215
+periodcentered.B;00B7
+periodcentered.BB;22C5
+openbullet.S;25CB
+bullet.S;25C5
+bullet.SS;2022
+bullet.SSS;2219
+emptyset.alt1;2300
+emptyset.alt2;2205
+transpose;1D40
+hermitconj;22B9
+EM;0058 0058 0058 0058 0058 0058 0058 0058
+NUL;0060 0060 0060 0060 0060 0060 0060 0060
+uni222B.dsp;222B FE01
+summationdisplay.1;2211 FE01
+summationdisplay;2211 FE01
+radicalbig;221A FE01
+radicalbigg;221A FE02
+radicalBig;221A FE03
+radicalBigg;221A FE04
 

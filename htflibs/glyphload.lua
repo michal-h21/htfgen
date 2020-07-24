@@ -81,7 +81,7 @@ end
 local function load_glyph_to_unicode(filename, t)
   local t = t or {}
   for line in io.lines(filename) do
-    local glyph, chars = line:match("pdfglyphtounicode{(.-)}{(.-)}")
+    local glyph, chars = line:match("\\p.*{(.-)}{(.-)}")
     update_glyph_list(t, glyph, chars)
   end
   return t
@@ -93,10 +93,12 @@ local parse_glyphlist = function()
 	local texglyphs = kpse.find_file("texglyphlist.txt","map")
 	local pdfglyphs = kpse.find_file("pdfglyphlist.txt","map")
   local glyphtounicode = kpse.find_file("glyphtounicode.tex", "tex")
+  local ntx =kpse.find_file("glyphtounicode-ntx.tex", "tex")
 	t = load_glyphlist(glyphlist, t)
 	t = load_glyphlist(texglyphs, t)
 	t = load_glyphlist(pdfglyphlist, t)
   t = load_glyph_to_unicode(glyphtounicode, t)
+  t = load_glyph_to_unicode(ntx, t)
   t = load_glyphlist(basedir .. "unimathsymbols.txt",t)
 	t = load_glyphlist(basedir .. "additional-glyphlist.txt", t)
 	t = load_glyphlist(basedir .. "goadb100.txt", t)

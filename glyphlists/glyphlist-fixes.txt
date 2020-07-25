@@ -169,4 +169,28 @@ radicalbig;221A FE01
 radicalbigg;221A FE02
 radicalBig;221A FE03
 radicalBigg;221A FE04
+circledP;24C5
+asciiacute;02CA
+aciiacutedbl;02DD
+acutedbl;02DD
+asciigrave;0060
+grave;0060
+gravedbl;02F5
+asciigravedbl;02F5
+asciibreve;02D8
+asciicaron;02C7
+asciidieresis;00A8
+asciimacron;00AF
+cwmascender;0032
+cwmcapital;0032
+hyphendblchar;2E40
+newtieaccentcapital;2040
+newtieaccentlowercase;2040
+guillbracketleft;27EA
+guillbracketright;27EB
+openbracketleft;27E6
+openbracketright;27E7
+orogate;00F8
+Orogate;00D8
+
 

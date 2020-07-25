@@ -82,6 +82,8 @@ local function load_glyph_to_unicode(filename, t)
   local t = t or {}
   for line in io.lines(filename) do
     local glyph, chars = line:match("\\p.*{(.-)}{(.-)}")
+    if glyph and glyph:match("tfm:zpzdr") then print(filename, glyph) end
+
     update_glyph_list(t, glyph, chars)
   end
   return t
@@ -94,11 +96,13 @@ local parse_glyphlist = function()
 	local pdfglyphs = kpse.find_file("pdfglyphlist.txt","map")
   local glyphtounicode = kpse.find_file("glyphtounicode.tex", "tex")
   local ntx =kpse.find_file("glyphtounicode-ntx.tex", "tex")
+  local cmr =kpse.find_file("glyphtounicode-cmr.tex", "tex")
 	t = load_glyphlist(glyphlist, t)
 	t = load_glyphlist(texglyphs, t)
 	t = load_glyphlist(pdfglyphlist, t)
   t = load_glyph_to_unicode(glyphtounicode, t)
   t = load_glyph_to_unicode(ntx, t)
+  t = load_glyph_to_unicode(cmr, t)
   t = load_glyphlist(basedir .. "unimathsymbols.txt",t)
 	t = load_glyphlist(basedir .. "additional-glyphlist.txt", t)
 	t = load_glyphlist(basedir .. "goadb100.txt", t)
@@ -107,8 +111,8 @@ local parse_glyphlist = function()
   -- file with fixes for wrong glyphs to unicode mappings 
   -- especially the ones that map to PUA
   t = load_glyphlist(basedir .. "glyphlist-fixes.txt", t)
-  t =  setmetatable({},{__index = t})
-	t.getGlyph = function(self,x)
+  g =  setmetatable({t=t},{__index = t})
+	g.getGlyph = function(self,x)
 		local x = x or ""
     -- match glyph in the glyph table
 		local y = self[x]  
@@ -120,7 +124,10 @@ local parse_glyphlist = function()
     local basepart = x:match("^([^%.]+)") or ""
     return self[basepart]
 	end
-	return t
+  g.getAllGlyphs = function(self)
+    return self.t
+  end
+	return g
 	--]]
 end
 

@@ -1,0 +1,24 @@
+#!/usr/bin/env texlua
+kpse.set_program_name("luatex")
+local glyphs = require "htflibs.glyphload"
+
+local glyphs_to_unicode = {}
+-- transform htflibs list of glyphs to LaTeX glyphtounicode.tex file
+
+for glyph,uni in pairs(glyphs:getAllGlyphs()) do
+  -- detect all unicodes
+  local codes = {}
+  for code in uni:gmatch("%&%#x(.-);") do
+    codes[#codes+1]=code
+  end
+  -- print only when we detect any unicodes (not just characters)
+  if #codes > 0 then
+    table.insert(glyphs_to_unicode, string.format("\\pdfglyphtounicode{%s}{%s}", glyph, table.concat(codes, " ")))
+  end
+end
+
+table.sort(glyphs_to_unicode)
+
+for _, pdf in ipairs(glyphs_to_unicode) do
+  -- print(pdf)
+end

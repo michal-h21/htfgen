@@ -20,5 +20,5 @@ end
 table.sort(glyphs_to_unicode)
 
 for _, pdf in ipairs(glyphs_to_unicode) do
-  -- print(pdf)
+  print(pdf)
 end

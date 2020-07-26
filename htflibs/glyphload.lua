@@ -82,8 +82,6 @@ local function load_glyph_to_unicode(filename, t)
   local t = t or {}
   for line in io.lines(filename) do
     local glyph, chars = line:match("\\p.*{(.-)}{(.-)}")
-    if glyph and glyph:match("tfm:zpzdr") then print(filename, glyph) end
-
     update_glyph_list(t, glyph, chars)
   end
   return t

@@ -194,6 +194,7 @@ function fontobj:resolve_characters(used_fonts, list)
   local missing_glyphs = {}
   local default_encoding 
   local function expand_entities(str)
+    local str = str or ""
     local expanded = str:gsub("&#x([0-9a-fA-F]+);", function(a) return uchar(tonumber(a, 16) or 32) end )
     return expanded
   end

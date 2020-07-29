@@ -114,14 +114,14 @@ local parse_glyphlist = function()
 	g.getGlyph = function(self,x)
 		local x = x or ""
     -- match glyph in the glyph table
-		local y = self[x]  
+		local y = self.t[x]  
 		if y then return y end
     -- glyph name may be actually unicode value
 		local c =  x:match("u[n]?[i]?([A-Fa-f0-9]+)%.?.*$")
     if c then return make_entity(c) end
     -- test only part of glyph before "." -- disregard the modifier after it
     local basepart = x:match("^([^%.]+)") or ""
-    return self[basepart]
+    return self.t[basepart]
 	end
   g.getAllGlyphs = function(self)
     return self.t

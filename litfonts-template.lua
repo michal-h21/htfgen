@@ -1,7 +1,13 @@
 local M = {}
 M.head = [[
-%       tex {nameofthefile.tex}
+% $Id: tex4ht-fonts-fourier.tex 790 2020-08-31 21:56:35Z karl $
+% etex {nameofthefile.tex}
 %
+% Copyright 2020 TeX Users Group.
+% Released under LPPL 1.3c+.
+% See tex4ht-cpright.tex for license text.
+
+
 % Copyright (C) 2018 TeX Users Group
 
 \input tex4ht.sty    

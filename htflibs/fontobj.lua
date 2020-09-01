@@ -128,8 +128,12 @@ function fontobj:load_pfb_enc(fontfile)
   end
   local pfbfile = kpse.find_file(fontfile, "type1 fonts")
   -- we must fake encoding name. we will name it after the pfb font
-  if not self.encodings[fontfile] then
+  if pfbfile and not self.encodings[fontfile] then
     self.encodings[fontfile] = pfbparser.get_encoding(pfbfile)
+  elseif not pfbfile then
+    -- return 8r enc if we cannot find the pfb file using kpse
+    self:err("Cannot find pfb file for: " .. (fontfile or "unknown"))
+    return self:load_pfb_enc(nil)
   end
   return fontfile
 end

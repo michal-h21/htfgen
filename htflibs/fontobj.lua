@@ -199,7 +199,15 @@ function fontobj:resolve_characters(used_fonts, list)
   local default_encoding 
   local function expand_entities(str)
     local str = str or ""
-    local expanded = str:gsub("&#x([0-9a-fA-F]+);", function(a) return uchar(tonumber(a, 16) or 32) end )
+    local expanded = str:gsub("&#x([0-9a-fA-F]+);", function(a) 
+      local t = {}
+      for i = 1, string.len(a), 4 do
+        local s = string.sub(a, i, i + 3)
+        t[#t+1] =uchar(tonumber(s, 16) or 32) 
+      end 
+      return table.concat(t)
+    end
+    )
     return expanded
   end
   local function update(glyph, current_chars, current_glyphs, current_unicodes)

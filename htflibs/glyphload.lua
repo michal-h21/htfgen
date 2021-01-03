@@ -30,7 +30,14 @@ local make_entity = function(hex)
   if 32 <= charcode and charcode <= 128 then
     return xml_escapes[ charcode ] or  string.char(charcode)
   end
-  return "&#x" .. hex .. ";"
+  local t = {}
+  for i = 1, string.len(hex), 4 do
+    local s = string.sub(hex, i, i + 3)
+
+    t[#t+1] = s -- uchar(tonumber(s, 16) or 32) 
+  end 
+  return "&#x" .. table.concat(t, ";&#x") .. ";"
+  -- return "&#x" .. hex .. ";"
 end
 
 local function update_glyph_list(t, glyph, hex)

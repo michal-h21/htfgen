@@ -35,8 +35,8 @@ There are two main scripts: `scanfdfile` and `dvitohtf`. The first one searches 
 declared fonts in the `FD` files, the other generates literate TeX file for the `HTF`
 generation. Sample usage is as follows:
 
-    cat /usr/local/texlive/2018/texmf-dist/tex/latex/ebgaramond/*.fd | scanfdfile | dvitohtf > ebgaramont-htf.tex
-    tex ebgaramont-htf.tex
+    cat /usr/local/texlive/2021/texmf-dist/tex/latex/ebgaramond/*.fd | scanfdfile | dvitohtf > ebgaramont-htf.tex
+    etex ebgaramont-htf.tex
 
 This will create `HTF` files for all detected fonts defined in `FD` files for EB Garamond.
 

@@ -20,7 +20,7 @@ function M.make_htf(encoding)
     elseif v ~= ".notdef" then
       -- print("missing",k,v)
       missing_glyphs[v] = encoding
-      htf_table[k] = {k,v}
+      htf_table[k] = {k,v, topicture=true}
     else
       htf_table[k] = {k,v}
     end
@@ -48,7 +48,11 @@ function M.htf_table(name, htf_table, min,max)
     local hex = v[3] or ""
     local count = v[1] or ""
     local name = v[2] or ""
-    t[#t+1] = string.format("'%s' '' %s %s",hex, name, count)
+    local format = "'%s' '' %s %s"
+    if v.topicture then
+      format =  "'%s' '1' %s %s"
+    end
+    t[#t+1] = string.format(format,hex, name, count)
   end
   t[#t+1] = string.format("%s %i %i",name,min,max)
   return table.concat(t,"\n")

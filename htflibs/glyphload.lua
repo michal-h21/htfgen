@@ -79,6 +79,14 @@ local load_alt_glyphs = function(t)
 				for _,item in ipairs(c)  do
 					t[item] = make_entity(hex)
 				end
+      else
+        word1, word2 = line:match("(%a+)%s+(%a+)")
+        if word2 then
+          local hex = t[word2]
+          if hex then
+            t[word1] = hex
+          end
+        end
 			end
 		end
 	end

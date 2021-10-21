@@ -114,6 +114,7 @@ for _, fontfile in ipairs(missing_fonts) do
     local htfname = fontfile .. ".htf"
     local hash = fontobject.hash
     local content
+    fontobject.style = fontobject.style or {}
     local familyname = args.family or fontobject.style.familyname or fontfile
     local htf_dir = familyname:gsub("%s", "_") .. "/"
     local htf_path = "unicode/" .. htf_dir 

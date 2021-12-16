@@ -68,10 +68,14 @@ function M.make_css(fontname, propertystring, familyname)
   local propertystring = propertystring or ""
   propertystring= propertystring:lower()
   local fontname = fontname:lower()
-  local bold = propertystring:match("bold") and "font-weight: bold;"
-  local slanted = propertystring:match("slanted") and "font-style: oblique;"
-  local italic = propertystring:match("italic") and "font-style: italic;"
-  local oblique = propertystring:match("oblique") and "font-style: oblique;"
+  local function prop_match(property, style) 
+    -- match font information from either PFB or fontname
+    return (propertystring:match(property) or fontname:match(property)) and style
+  end
+  local bold = prop_match("bold","font-weight: bold;")
+  local slanted = prop_match("slanted", "font-style: oblique;")
+  local italic = prop_match("italic", "font-style: italic;")
+  local oblique = prop_match("oblique", "font-style: oblique;")
   local smallcaps = (fontname:match("sc") or fontname:match("smallcaps")) and "font-variant: small-caps;"
   local sans = fontname:match("sans") and "sans-serif"
   local mono = fontname:match("mono") and "monospace"

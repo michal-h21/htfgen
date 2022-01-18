@@ -192,5 +192,6 @@ openbracketleft;27E6
 openbracketright;27E7
 orogate;00F8
 Orogate;00D8
+Tilde;223C
 
 

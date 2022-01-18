@@ -22,7 +22,7 @@ local is_pua = function(number)
 end
 
 -- escape invalid xml characters: & < >
-local xml_escapes = {[38] = "&amp;", [60] = "&lt;", [62] = "&gt;", [96] = "&#x60;"}
+local xml_escapes = {[38] = "&amp;", [60] = "&lt;", [62] = "&gt;", [96] = "&#x60;", [39]="&#x0027;"}
 
 local make_entity = function(hex)
   -- return ascii character instead of entity if possible
@@ -31,13 +31,18 @@ local make_entity = function(hex)
     return xml_escapes[ charcode ] or  string.char(charcode)
   end
   local t = {}
-  for i = 1, string.len(hex), 4 do
-    local s = string.sub(hex, i, i + 3)
+  local hexlen = string.len(hex)
+  -- we can have multiple unicode characters for one codepoint
+  if hexlen > 4 and hexlen % 4 == 0 then
+    for i = 1, hexlen, 4 do
+      local s = string.sub(hex, i, i + 3)
 
-    t[#t+1] = s -- uchar(tonumber(s, 16) or 32) 
-  end 
-  return "&#x" .. table.concat(t, ";&#x") .. ";"
-  -- return "&#x" .. hex .. ";"
+      t[#t+1] = s -- uchar(tonumber(s, 16) or 32) 
+    end 
+    return "&#x" .. table.concat(t, ";&#x") .. ";"
+  else
+    return "&#x" .. hex .. ";"
+  end
 end
 
 local function update_glyph_list(t, glyph, hex)

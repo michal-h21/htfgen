@@ -45,7 +45,7 @@ So if `tex4ht` reports missing `HTF` files, it can be used directly on the `DVI`
 file:
 
    dvitohtf sample.dvi > missing.tex
-   tex missing.tex
+   etex missing.tex
 
 `dvitohtf` supports both virtual and `tfm` fonts. It looks for virtual fonts
 first, the `tfm` file is used only when no `vf` is found. It looks for all

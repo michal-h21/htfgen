@@ -71,7 +71,7 @@ function M.add_copyright(name, htf_table)
   local rep = string.rep
   local max_val = 0
   for i = 2, #license+1 do
-    max_val = max(max_val, len(htf_table[i]))
+    max_val = max(max_val, len(htf_table[i] or ""))
   end
   for i, text in ipairs(license) do
     -- we don't want to add copyright to the first line of the htf_table, so we must use an offset

@@ -5,25 +5,28 @@ This is a set of tools to simplify creation of `htf` fonts for `tex4ht`.
 
 ## Installation
 
-    cd `kpsewhich -var-value TEXMFHOME`
-    mkdir -p tex/latex
-    cd tex/latex
-    git clone https://github.com/michal-h21/htfgen.git
-    cd htfgen
-    tex makeenc.tex
-    chmod +x lstexenc
-    chmod +x tfmtochars
-    chmod +x htfgen
-    chmod +x dvitohtf
-    chmod +x scanfdfile
-    chmod +x make-t1-htf 
-    ln -s /full/path/to/thisdir/lstexenc /usr/local/bin/lstexenc
-    ln -s /full/path/to/thisdir/tfmtochars /usr/local/bin/tfmtochars
-    ln -s /full/path/to/thisdir/htfgen /usr/local/bin/htfgen
-    ln -s /full/path/to/thisdir/dvitohtf /usr/local/bin/dvitohtf
-    ln -s /full/path/to/thisdir/scanfdfile /usr/local/bin/scanfdfile
-    ln -s /full/path/to/thisdir/make-t1-htf /usr/local/bin/make-t1-htf
-
+```bash
+cd `kpsewhich -var-value TEXMFHOME`
+mkdir -p tex/latex
+cd tex/latex
+git clone https://github.com/michal-h21/htfgen.git
+cd htfgen
+tex makeenc.tex
+chmod +x lstexenc
+chmod +x tfmtochars
+chmod +x htfgen
+chmod +x dvitohtf
+chmod +x scanfdfile
+chmod +x make-t1-htf 
+# Should almost always be set, but you never know.
+[ -z "$PWD" ] && pwd="$(pwd)"
+ln -s $PWD/lstexenc /usr/local/bin/lstexenc
+ln -s $PWD/tfmtochars /usr/local/bin/tfmtochars
+ln -s $PWD/htfgen /usr/local/bin/htfgen
+ln -s $PWD/dvitohtf /usr/local/bin/dvitohtf
+ln -s $PWD/scanfdfile /usr/local/bin/scanfdfile
+ln -s $PWD/make-t1-htf /usr/local/bin/make-t1-htf
+```
 ## Introduction
 
 

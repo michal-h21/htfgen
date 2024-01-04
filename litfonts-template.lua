@@ -1,7 +1,7 @@
 local M = {}
 M.head = [[
-%
-% Copyright 2022 TeX Users Group.
+% $Id$
+% Copyright 2024 TeX Users Group.
 % Released under LPPL 1.3c+.
 % See tex4ht-cpright.tex for license text.
 %

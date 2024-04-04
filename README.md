@@ -26,6 +26,7 @@ ln -s $PWD/htfgen /usr/local/bin/htfgen
 ln -s $PWD/dvitohtf /usr/local/bin/dvitohtf
 ln -s $PWD/scanfdfile /usr/local/bin/scanfdfile
 ln -s $PWD/make-t1-htf /usr/local/bin/make-t1-htf
+mktexlsr # this is optional, only if your distro cannot find installed Lua files
 ```
 ## Introduction
 

@@ -418,8 +418,8 @@ searrow;2198
 swarrow;2199
 nleftarrow;219A
 nrightarrow;219B
-leftwavearrow;219C
-rightwavearrow;219D
+leftwavearrow;21DC
+rightwavearrow;21DD
 twoheadleftarrow;219E
 twoheaduparrow;219F
 twoheadrightarrow;21A0
